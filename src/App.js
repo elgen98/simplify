@@ -7,7 +7,10 @@ import SpotifyWebApi from "spotify-web-api-js";
 const spotify = new SpotifyWebApi();
 
 function App() {
+  let testArr = [];
   const [token, setToken] = useState("");
+  const [playlists, setPlaylists] = useState([]);
+  const [userPlaylists, setUserPlaylists] = useState([]);
 
   useEffect(() => {
     const hash = getTokenFromUrl();
@@ -19,7 +22,13 @@ function App() {
       spotify.setAccessToken(_token);
     }
 
-    console.log("token", token);
+    spotify.getUserPlaylists({ limit: 50 }).then(function (data) {
+      testArr = data.items.filter(function (playlist) {
+        return playlist.owner.id === "elgen98";
+      });
+      setPlaylists(testArr);
+      console.log(playlists);
+    });
   }, []);
 
   return <div className="app">{token ? <h1>Logged in</h1> : <Login />}</div>;
