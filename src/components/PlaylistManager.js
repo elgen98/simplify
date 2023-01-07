@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SpotifyWebApi from "spotify-web-api-js"
+import SinglePlaylist from './SinglePlaylist';
 
 const spotify = new SpotifyWebApi();
 
@@ -7,7 +8,7 @@ function PlaylistManager() {
 
     let testArr = [];
     const [playlists, setPlaylists] = useState([]);
-
+    const [playlistId, setPlaylistId] = useState("");
 
     useEffect(() => {
         //GET playlists owned by user
@@ -26,11 +27,19 @@ function PlaylistManager() {
           });
     }, [])
 
-    const playlistsHtml = playlists.map((playlist) => <li key={playlist.id}>{playlist.name}</li>);
+
+ 
+    const playlistsHtml = playlists.map((playlist) => <li key={playlist.id} onClick={() => {setPlaylistId(playlist.id);}}>{playlist.name}</li>);
 
 
   return (
-    <div>{playlistsHtml}</div>
+    <div>
+        {!playlistId ?            
+        <ul>
+            {playlistsHtml}
+        </ul>
+        : <SinglePlaylist id={playlistId}/>}
+    </div>
   )
 }
 
