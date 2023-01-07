@@ -13,6 +13,7 @@ function App() {
   const [userPlaylists, setUserPlaylists] = useState([]);
 
   useEffect(() => {
+    //GET token from url and resetting hash
     const hash = getTokenFromUrl();
     window.location.hash = "";
     const _token = hash.access_token;
@@ -22,6 +23,7 @@ function App() {
       spotify.setAccessToken(_token);
     }
 
+    //GET playlists owned by user
     spotify.getUserPlaylists({ limit: 50 }).then(function (data) {
       testArr = data.items.filter(function (playlist) {
         return playlist.owner.id === "elgen98";
