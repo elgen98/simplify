@@ -23,7 +23,7 @@ function App() {
 
   }, []);
 
-  return <div className="app">{token ? <PlaylistManager/> : <Login />}</div>;
+  return <div className=" h-screen">{token ? <PlaylistManager/> : <Login />}</div>;
 }
 
 export default App;
