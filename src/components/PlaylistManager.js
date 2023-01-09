@@ -6,24 +6,20 @@ const spotify = new SpotifyWebApi();
 
 function PlaylistManager() {
 
-    let testArr = [];
     const [playlists, setPlaylists] = useState([]);
     const [playlistId, setPlaylistId] = useState("");
 
     useEffect(() => {
-        //GET playlists owned by user
-        let userId = "";
-        spotify.getAccessToken();
-        spotify.getMe().then(function (data) {
-            userId = data.id;
-        })
 
-        spotify.getUserPlaylists({ limit: 50 }).then(function (data) {
-            testArr = data.items.filter(function (playlist) {
-              return playlist.owner.id === userId;
-            });
-            setPlaylists(testArr);
-          });
+      Promise.all([spotify.getMe(), spotify.getUserPlaylists({limit: 50})])
+        .then((values) => {
+          let userId = values[0].id;
+          setPlaylists(values[1].items.filter(function (item) {
+            return item.owner.id === userId;
+          }))
+        })
+        .catch(err => console.error(err));
+
     }, [])
 
     let playlistGroupHtml = playlists.map((playlist) => 

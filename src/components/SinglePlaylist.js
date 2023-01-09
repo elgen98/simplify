@@ -10,11 +10,30 @@ function SinglePlaylist(props) {
   const [playlistName, setPlaylistName] = useState("")
 
   useEffect(() => {
-    spotify.getPlaylist(playlistId).then(function (data) {
-        setPlaylistTracks(data.tracks.items);
-        setPlaylistName(data.name);
+    let testArray = [];
+    let offset = 0;
+    let playlistTotal = 0;
+
+    spotify.getPlaylist(playlistId)
+    .then(function (playlist) {
+        console.log(playlist);
+        console.log(playlist.tracks.total);
+        playlistTotal = playlist.tracks.total;
+        setPlaylistName(playlist.name);
     });
+    
+    console.log("total", playlistTotal);
+
+    /* while(testArray.length < playlistTotal){
+        spotify.getPlaylistTracks({offset: offset}).then(function (tracks){
+            testArray.push(tracks.items)
+          })
+          offset += 100;
+          console.log("hey");
+    } */
+
   }, [])
+  
 
   let playlistHtml = playlistTracks.map((item) => 
   <li key={item.track.id}>
