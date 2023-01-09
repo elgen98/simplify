@@ -20,23 +20,19 @@ function PlaylistManager() {
 
         spotify.getUserPlaylists({ limit: 50 }).then(function (data) {
             testArr = data.items.filter(function (playlist) {
-                console.log(playlist);
               return playlist.owner.id === userId;
             });
             setPlaylists(testArr);
           });
     }, [])
 
-
- 
-    const playlistsHtml = playlists.map((playlist) => <li key={playlist.id} onClick={() => {setPlaylistId(playlist.id);}}>{playlist.name}</li>);
-
+    let playlistGroupHtml = playlists.map((playlist) => <li key={playlist.id} onClick={() => {setPlaylistId(playlist.id);}}>{playlist.name}</li>);
 
   return (
     <div>
         {!playlistId ?            
         <ul>
-            {playlistsHtml}
+            {playlistGroupHtml}
         </ul>
         : <SinglePlaylist id={playlistId}/>}
     </div>

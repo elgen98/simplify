@@ -6,17 +6,27 @@ const spotify = new SpotifyWebApi();
 function SinglePlaylist(props) {
 
   const playlistId = props.id
-  const [playlist, setPlaylist] = useState({});
+  const [playlistTracks, setPlaylistTracks] = useState([]);
 
   useEffect(() => {
-    spotify.getPlaylist(playlistId).then((data) => {
-        setPlaylist(data)
-    })
-  },[])
+    spotify.getPlaylistTracks(playlistId).then(function (data) {
+        setPlaylistTracks(data.items);
+    });
+  }, [])
 
-  
+  let playlistHtml = playlistTracks.map((item) => 
+  <li key={item.track.id}>
+     <h3>{item.track.name}</h3>
+  </li>
+ );
+ 
   return (
-    <div><button onClick={() => {console.log(playlist)}}>Klick</button></div>
+    <div>
+      <button onClick={() => {console.log("JSON OBJECT", playlistTracks)}}>GET JSON</button>
+      <ul>
+        {playlistHtml}
+      </ul>
+    </div>
   )
 }
 
