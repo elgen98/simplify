@@ -26,16 +26,21 @@ function PlaylistManager() {
           });
     }, [])
 
-    let playlistGroupHtml = playlists.map((playlist) => <li key={playlist.id} onClick={() => {setPlaylistId(playlist.id);}}>{playlist.name}</li>);
+    let playlistGroupHtml = playlists.map((playlist) => 
+    <li key={playlist.id} onClick={() => {setPlaylistId(playlist.id);}}>{playlist.name}</li>
+    );
 
   return (
-    <div>
-        {!playlistId ?            
-        <ul>
-            {playlistGroupHtml}
-        </ul>
+    <main className="h-full" >
+        {!playlistId ?
+        <section className="flex flex-col justify-center items-center gap-4">   
+          <h2 className="text-2xl font-semibold ">Your Playlists</h2>            
+          <ul className="flex flex-col gap-2 w-3/4">
+              {playlistGroupHtml}
+          </ul>
+        </section>
         : <SinglePlaylist id={playlistId}/>}
-    </div>
+    </main>
   )
 }
 
