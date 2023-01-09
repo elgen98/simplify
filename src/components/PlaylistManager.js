@@ -31,16 +31,16 @@ function PlaylistManager() {
     );
 
   return (
-    <main className="h-full" >
+    <>
         {!playlistId ?
-        <section className="flex flex-col justify-center items-center gap-4">   
+        <main className="flex flex-col justify-center items-center gap-4">   
           <h2 className="text-2xl font-semibold ">Your Playlists</h2>            
           <ul className="flex flex-col gap-2 w-3/4">
               {playlistGroupHtml}
           </ul>
-        </section>
+        </main>
         : <SinglePlaylist id={playlistId}/>}
-    </main>
+    </>
   )
 }
 

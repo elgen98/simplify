@@ -7,10 +7,12 @@ function SinglePlaylist(props) {
 
   const playlistId = props.id
   const [playlistTracks, setPlaylistTracks] = useState([]);
+  const [playlistName, setPlaylistName] = useState("")
 
   useEffect(() => {
-    spotify.getPlaylistTracks(playlistId).then(function (data) {
-        setPlaylistTracks(data.items);
+    spotify.getPlaylist(playlistId).then(function (data) {
+        setPlaylistTracks(data.tracks.items);
+        setPlaylistName(data.name);
     });
   }, [])
 
@@ -21,12 +23,13 @@ function SinglePlaylist(props) {
  );
  
   return (
-    <div>
+    <main className="flex flex-col justify-center items-center gap-4">
       <button onClick={() => {console.log("JSON OBJECT", playlistTracks)}}>GET JSON</button>
-      <ul>
+      <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+      <ul className="flex flex-col gap-2 w-3/4">
         {playlistHtml}
       </ul>
-    </div>
+    </main>
   )
 }
 
