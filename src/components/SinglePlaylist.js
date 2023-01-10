@@ -24,16 +24,12 @@ function SinglePlaylist(props) {
       let requestSize = 100;
       let testArray = [];
       let loopAmount = Math.ceil(totalTracks / requestSize);
-      console.log(loopAmount);
       for (let i = 0; i < loopAmount; i++) {
         spotify
           .getPlaylistTracks(playlistId, { offset: offset, limit: requestSize })
           .then(function (data) {
-            /* setPlaylistTracks([...playlistTracks, data.items]); */
             testArray = testArray.concat(data.items);
-            console.log("tracks", testArray);
             setPlaylistTracks(...playlistTracks, testArray);
-            console.log("state", playlistTracks);
           });
         offset += 100;
       }
