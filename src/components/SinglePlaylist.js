@@ -44,13 +44,6 @@ function SinglePlaylist(props) {
 
   return (
     <main className="flex flex-col justify-center items-center gap-4">
-      <button
-        onClick={() => {
-          console.log("JSON OBJECT", playlistTracks);
-        }}
-      >
-        GET JSON
-      </button>
       <h2 className="text-2xl font-semibold ">{playlistName}</h2>
       <p>{playlistTracks.length}</p>
       <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
