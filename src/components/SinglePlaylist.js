@@ -7,6 +7,7 @@ function SinglePlaylist(props) {
   const playlistId = props.id;
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
+  const [selectedTracks, setSelectedTracks] = useState([]);
 
   useEffect(() => {
     spotify
@@ -36,14 +37,42 @@ function SinglePlaylist(props) {
     }
   }, []);
 
+  function handleChange(e) {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedTracks([...selectedTracks, value]);
+    } else {
+      setSelectedTracks(selectedTracks.filter((track) => track !== value));
+    }
+  }
+
+  function handleClick() {
+    spotify.removeTracksFromPlaylist(playlistId, selectedTracks);
+    let result = playlistTracks.filter(
+      (x) => !selectedTracks.includes(x.track.uri)
+    );
+    setPlaylistTracks(result);
+  }
+
   let playlistHtml = playlistTracks.map((item) => (
-    <li key={item.track.id}>
-      <h3>{item.track.name}</h3>
-    </li>
+    <label key={item.track.id}>
+      <input
+        type="checkbox"
+        name="track"
+        value={item.track.uri}
+        onChange={handleChange}
+      />
+      {item.track.name}
+    </label>
   ));
 
   return (
     <main className="flex flex-col justify-center items-center gap-4">
+      <div>
+        Selected Tracks:{" "}
+        {selectedTracks.length ? selectedTracks.join(", ") : null}
+      </div>
+      <button onClick={handleClick}>Delete selected</button>
       <h2 className="text-2xl font-semibold ">{playlistName}</h2>
       <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
     </main>
