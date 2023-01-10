@@ -9,26 +9,35 @@ function SinglePlaylist(props) {
   const [playlistName, setPlaylistName] = useState("");
 
   useEffect(() => {
-    let testArray = [];
-    let offset = 0;
-    let playlistTotal = 0;
+    spotify
+      .getPlaylist(playlistId)
+      .then(function (playlist) {
+        setPlaylistName(playlist.name);
+        return playlist.tracks.total;
+      })
+      .then(function (totalTracks) {
+        fetchLoop(totalTracks);
+      });
 
-    spotify.getPlaylist(playlistId).then(function (playlist) {
-      console.log(playlist);
-      console.log(playlist.tracks.total);
-      playlistTotal = playlist.tracks.total;
-      setPlaylistName(playlist.name);
-    });
-
-    console.log("total", playlistTotal);
-
-    /* while(testArray.length < playlistTotal){
-        spotify.getPlaylistTracks({offset: offset}).then(function (tracks){
-            testArray.push(tracks.items)
-          })
-          offset += 100;
-          console.log("hey");
-    } */
+    function fetchLoop(totalTracks) {
+      let offset = 0;
+      let requestSize = 100;
+      let testArray = [];
+      let loopAmount = Math.ceil(totalTracks / requestSize);
+      console.log(loopAmount);
+      for (let i = 0; i < loopAmount; i++) {
+        spotify
+          .getPlaylistTracks(playlistId, { offset: offset, limit: requestSize })
+          .then(function (data) {
+            /* setPlaylistTracks([...playlistTracks, data.items]); */
+            testArray = testArray.concat(data.items);
+            console.log("tracks", testArray);
+            setPlaylistTracks(...playlistTracks, testArray);
+            console.log("state", playlistTracks);
+          });
+        offset += 100;
+      }
+    }
   }, []);
 
   let playlistHtml = playlistTracks.map((item) => (
@@ -47,6 +56,7 @@ function SinglePlaylist(props) {
         GET JSON
       </button>
       <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+      <p>{playlistTracks.length}</p>
       <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
     </main>
   );
