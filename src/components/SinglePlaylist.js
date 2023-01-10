@@ -31,7 +31,7 @@ function SinglePlaylist(props) {
             testArray = testArray.concat(data.items);
             setPlaylistTracks(...playlistTracks, testArray);
           });
-        offset += 100;
+        offset += requestSize;
       }
     }
   }, []);
@@ -45,7 +45,6 @@ function SinglePlaylist(props) {
   return (
     <main className="flex flex-col justify-center items-center gap-4">
       <h2 className="text-2xl font-semibold ">{playlistName}</h2>
-      <p>{playlistTracks.length}</p>
       <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
     </main>
   );
