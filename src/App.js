@@ -20,10 +20,11 @@ function App() {
       setToken(_token);
       spotify.setAccessToken(_token);
     }
-
   }, []);
 
-  return <div className=" h-screen">{token ? <PlaylistManager/> : <Login />}</div>;
+  return (
+    <div className=" h-screen">{token ? <PlaylistManager /> : <Login />}</div>
+  );
 }
 
 export default App;
