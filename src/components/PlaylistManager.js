@@ -9,7 +9,6 @@ function PlaylistManager(props) {
   const [showEditMode, setShowEditMode] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
-  const [selectedTracks, setSelectedTracks] = useState([]);
 
   useEffect(() => {
     spotify
@@ -39,20 +38,11 @@ function PlaylistManager(props) {
     }
   }, []);
 
-  function handleChange(e) {
-    const { value, checked } = e.target;
-    if (checked) {
-      setSelectedTracks([...selectedTracks, value]);
-    } else {
-      setSelectedTracks(selectedTracks.filter((track) => track !== value));
-    }
-  }
-
   function toggleEditMode() {
     setShowEditMode(!showEditMode);
   }
 
-  function handleClick() {
+  function deleteTracks(selectedTracks) {
     spotify.removeTracksFromPlaylist(playlistId, selectedTracks);
     let result = playlistTracks.filter(
       (x) => !selectedTracks.includes(x.track.uri)
@@ -61,28 +51,18 @@ function PlaylistManager(props) {
   }
 
   let playlistHtml = playlistTracks.map((item) => (
-    <label key={item.track.id}>
-      <input
-        type="checkbox"
-        name="track"
-        value={item.track.uri}
-        onChange={handleChange}
-      />
-      {item.track.name}
-    </label>
+    <li key={item.track.id}>{item.track.name}</li>
   ));
 
   return (
     <main className="flex flex-col justify-center items-center gap-4">
-      <div>
-        Selected Tracks:{" "}
-        {selectedTracks.length ? selectedTracks.join(", ") : null}
-        {showEditMode && <EditMode playlist={playlistTracks} />}
-        <button onClick={handleClick}>Delete selected</button>
-        <button onClick={toggleEditMode}>Simplify</button>
-      </div>
       <h2 className="text-2xl font-semibold ">{playlistName}</h2>
-      <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
+      <button onClick={toggleEditMode}>Simplify</button>
+      {showEditMode ? (
+        <EditMode playlist={playlistTracks} foo={deleteTracks} />
+      ) : (
+        <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
+      )}
     </main>
   );
 }
