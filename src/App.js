@@ -3,7 +3,7 @@ import "./App.css";
 import Login from "./components/Login";
 import { getTokenFromUrl } from "./spotify";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistManager from "./components/PlaylistManager";
+import PlaylistSelection from "./components/PlaylistSelection";
 
 const spotify = new SpotifyWebApi();
 
@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   return (
-    <div className=" h-screen">{token ? <PlaylistManager /> : <Login />}</div>
+    <div className=" h-screen">{token ? <PlaylistSelection /> : <Login />}</div>
   );
 }
 
