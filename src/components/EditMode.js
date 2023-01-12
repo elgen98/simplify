@@ -1,8 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import Modal from "./Modal";
 import PlaylistSelection from "./PlaylistSelection";
+import { BiTransfer } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
 
 const spotify = new SpotifyWebApi();
 
@@ -39,15 +41,20 @@ function EditMode(props) {
   return (
     <>
       {selectedTracks.length > 0 && (
-        <div>
-          <button onClick={() => props.removeTracks(selectedTracks)}>
-            Delete
+        <div className="fixed top-0 left-[75%] right-0 flex flex-col gap-2 w-10">
+          <button
+            className="px-3 py-3 w-full bg-red-600 rounded-full"
+            title="Delete"
+            onClick={() => props.removeTracks(selectedTracks)}
+          >
+            <MdDelete />
           </button>
           <button
+            className="px-3 py-3 bg-orange-400 rounded-full"
+            title="Transfer"
             onClick={() => setOpen(true)}
-            className="px-4 py-3 bg-gray-200 rounded-full"
           >
-            Move to another playlist
+            <BiTransfer />
           </button>
         </div>
       )}
