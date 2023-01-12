@@ -1,48 +1,69 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import SinglePlaylist from "./SinglePlaylist";
+import EditMode from "./EditMode";
 
 const spotify = new SpotifyWebApi();
 
-function PlaylistManager() {
-  const [playlists, setPlaylists] = useState([]);
-  const [playlistId, setPlaylistId] = useState("");
+function PlaylistManager(props) {
+  const playlistId = props.id;
+  const [showEditMode, setShowEditMode] = useState(false);
+  const [playlistTracks, setPlaylistTracks] = useState([]);
+  const [playlistName, setPlaylistName] = useState("");
 
   useEffect(() => {
-    Promise.all([spotify.getMe(), spotify.getUserPlaylists({ limit: 50 })])
-      .then((values) => {
-        let userId = values[0].id;
-        setPlaylists(
-          values[1].items.filter(function (item) {
-            return item.owner.id === userId;
-          })
-        );
+    spotify
+      .getPlaylist(playlistId)
+      .then(function (playlist) {
+        setPlaylistName(playlist.name);
+        return playlist.tracks.total;
       })
-      .catch((err) => console.error(err));
+      .then(function (totalTracks) {
+        fetchLoop(totalTracks);
+      });
+
+    function fetchLoop(totalTracks) {
+      let offset = 0;
+      let requestSize = 100;
+      let testArray = [];
+      let loopAmount = Math.ceil(totalTracks / requestSize);
+      for (let i = 0; i < loopAmount; i++) {
+        spotify
+          .getPlaylistTracks(playlistId, { offset: offset, limit: requestSize })
+          .then(function (data) {
+            testArray = testArray.concat(data.items);
+            setPlaylistTracks(...playlistTracks, testArray);
+          });
+        offset += requestSize;
+      }
+    }
   }, []);
 
-  let playlistGroupHtml = playlists.map((playlist) => (
-    <li
-      key={playlist.id}
-      onClick={() => {
-        setPlaylistId(playlist.id);
-      }}
-    >
-      {playlist.name}
-    </li>
+  function toggleEditMode() {
+    setShowEditMode(!showEditMode);
+  }
+
+  function deleteTracks(selectedTracks) {
+    spotify.removeTracksFromPlaylist(playlistId, selectedTracks);
+    let result = playlistTracks.filter(
+      (x) => !selectedTracks.includes(x.track.uri)
+    );
+    setPlaylistTracks(result);
+  }
+
+  let playlistHtml = playlistTracks.map((item) => (
+    <li key={item.track.id}>{item.track.name}</li>
   ));
 
   return (
-    <>
-      {!playlistId ? (
-        <main className="flex flex-col justify-center items-center gap-4">
-          <h2 className="text-2xl font-semibold ">Your Playlists</h2>
-          <ul className="flex flex-col gap-2 w-3/4">{playlistGroupHtml}</ul>
-        </main>
+    <main className="flex flex-col justify-center items-center gap-4">
+      <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+      <button onClick={toggleEditMode}>Simplify</button>
+      {showEditMode ? (
+        <EditMode playlist={playlistTracks} removeTracks={deleteTracks} />
       ) : (
-        <SinglePlaylist id={playlistId} />
+        <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
       )}
-    </>
+    </main>
   );
 }
 
