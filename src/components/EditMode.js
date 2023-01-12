@@ -52,6 +52,9 @@ function EditMode(props) {
         </div>
       )}
       <Modal open={open} onClose={() => setOpen(false)}>
+        <h2 className="font-semibold text-lg text-center">
+          Select receiving playlist
+        </h2>
         <PlaylistSelection liftId={selectReceiver} />
       </Modal>
       <div className="flex flex-col gap-2 w-3/4">{playlistHtml}</div>

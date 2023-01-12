@@ -11,7 +11,10 @@ function Simplify() {
   return (
     <main className="flex flex-col justify-center items-center gap-4">
       {!playlistId ? (
-        <PlaylistSelection liftId={selectPlaylist} />
+        <div>
+          <h2 className="text-2xl font-semibold ">Your Playlists</h2>
+          <PlaylistSelection liftId={selectPlaylist} />
+        </div>
       ) : (
         <PlaylistManager id={playlistId} />
       )}

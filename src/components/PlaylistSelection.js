@@ -32,7 +32,6 @@ function PlaylistSelection(props) {
 
   return (
     <>
-      <h2 className="text-2xl font-semibold ">Your Playlists</h2>
       <ul className="flex flex-col gap-2 w-3/4">{playlistGroupHtml}</ul>
     </>
   );
