@@ -29,8 +29,9 @@ function EditMode(props) {
     }
 
     let playlistHtml = playlist.map((item) => (
-        <label key={item.track.id}>
+        <label key={item.track.id} className="whitespace-nowrap">
             <input
+                className=" w-6 h-6 align-middle"
                 type="checkbox"
                 name="track"
                 value={item.track.uri}
@@ -44,7 +45,7 @@ function EditMode(props) {
     return (
         <>
             {selectedTracks.length > 0 && (
-                <div className="fixed top-0 left-[75%] right-0 flex flex-col gap-2 w-10">
+                <div className="fixed top-0 right-0 flex flex-col gap-2 m-3">
                     <button
                         className="px-3 py-3 w-full bg-red-600 rounded-full"
                         title="Delete"
@@ -67,7 +68,9 @@ function EditMode(props) {
                 </h2>
                 <PlaylistSelection liftId={selectReceiver} />
             </Modal>
-            <div className="flex flex-col gap-2 w-3/4">{playlistHtml}</div>
+            <div className="flex flex-col gap-2 w-[86.5%] overflow-x-hidden">
+                {playlistHtml}
+            </div>
         </>
     );
 }
