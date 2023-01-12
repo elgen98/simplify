@@ -5,7 +5,7 @@ function EditMode(props) {
   const playlist = props.playlist;
   const [selectedTracks, setSelectedTracks] = useState([]);
 
-  function handleChange(e) {
+  function toggleChecked(e) {
     const { value, checked } = e.target;
     if (checked) {
       setSelectedTracks([...selectedTracks, value]);
@@ -20,17 +20,23 @@ function EditMode(props) {
         type="checkbox"
         name="track"
         value={item.track.uri}
-        onChange={handleChange}
+        onChange={toggleChecked}
       />
       {item.track.name}
     </label>
   ));
 
   return (
-    <div>
-      <button onClick={() => props.foo(selectedTracks)}>Delete</button>
+    <>
+      {selectedTracks.length > 0 && (
+        <div>
+          <button onClick={() => props.removeTracks(selectedTracks)}>
+            Delete
+          </button>
+        </div>
+      )}
       <div className="flex flex-col gap-2 w-3/4">{playlistHtml}</div>
-    </div>
+    </>
   );
 }
 

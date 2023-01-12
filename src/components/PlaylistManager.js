@@ -59,7 +59,7 @@ function PlaylistManager(props) {
       <h2 className="text-2xl font-semibold ">{playlistName}</h2>
       <button onClick={toggleEditMode}>Simplify</button>
       {showEditMode ? (
-        <EditMode playlist={playlistTracks} foo={deleteTracks} />
+        <EditMode playlist={playlistTracks} removeTracks={deleteTracks} />
       ) : (
         <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
       )}
