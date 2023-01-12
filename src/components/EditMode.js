@@ -9,64 +9,67 @@ import { MdDelete } from "react-icons/md";
 const spotify = new SpotifyWebApi();
 
 function EditMode(props) {
-  const playlist = props.playlist;
-  const [selectedTracks, setSelectedTracks] = useState([]);
-  const [open, setOpen] = useState(false);
+    const playlist = props.playlist;
+    const [selectedTracks, setSelectedTracks] = useState([]);
+    const [open, setOpen] = useState(false);
 
-  function toggleChecked(e) {
-    const { value, checked } = e.target;
-    if (checked) {
-      setSelectedTracks([...selectedTracks, value]);
-    } else {
-      setSelectedTracks(selectedTracks.filter((track) => track !== value));
+    function toggleChecked(e) {
+        const { value, checked } = e.target;
+        if (checked) {
+            setSelectedTracks([...selectedTracks, value]);
+        } else {
+            setSelectedTracks(
+                selectedTracks.filter((track) => track !== value)
+            );
+        }
     }
-  }
 
-  function selectReceiver(playlistId) {
-    props.moveTracks(playlistId, selectedTracks);
-  }
+    function selectReceiver(playlistId) {
+        props.moveTracks(playlistId, selectedTracks);
+    }
 
-  let playlistHtml = playlist.map((item) => (
-    <label key={item.track.id}>
-      <input
-        type="checkbox"
-        name="track"
-        value={item.track.uri}
-        onChange={toggleChecked}
-      />
-      {item.track.name}
-    </label>
-  ));
+    let playlistHtml = playlist.map((item) => (
+        <label key={item.track.id}>
+            <input
+                type="checkbox"
+                name="track"
+                value={item.track.uri}
+                onChange={toggleChecked}
+            />
 
-  return (
-    <>
-      {selectedTracks.length > 0 && (
-        <div className="fixed top-0 left-[75%] right-0 flex flex-col gap-2 w-10">
-          <button
-            className="px-3 py-3 w-full bg-red-600 rounded-full"
-            title="Delete"
-            onClick={() => props.removeTracks(selectedTracks)}
-          >
-            <MdDelete />
-          </button>
-          <button
-            className="px-3 py-3 bg-orange-400 rounded-full"
-            title="Transfer"
-            onClick={() => setOpen(true)}
-          >
-            <BiTransfer />
-          </button>
-        </div>
-      )}
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <h2 className="font-semibold text-lg text-center">
-          Select receiving playlist
-        </h2>
-        <PlaylistSelection liftId={selectReceiver} />
-      </Modal>
-      <div className="flex flex-col gap-2 w-3/4">{playlistHtml}</div>
-    </>
-  );
+            {item.track.name}
+        </label>
+    ));
+
+    return (
+        <>
+            {selectedTracks.length > 0 && (
+                <div className="fixed top-0 left-[75%] right-0 flex flex-col gap-2 w-10">
+                    <button
+                        className="px-3 py-3 w-full bg-red-600 rounded-full"
+                        title="Delete"
+                        onClick={() => props.removeTracks(selectedTracks)}
+                    >
+                        <MdDelete />
+                    </button>
+                    <button
+                        className="px-3 py-3 bg-orange-400 rounded-full"
+                        title="Transfer"
+                        onClick={() => setOpen(true)}
+                    >
+                        <BiTransfer />
+                    </button>
+                </div>
+            )}
+            <Modal open={open} onClose={() => setOpen(false)}>
+                <h2 className="font-semibold text-lg text-center">
+                    Select receiving playlist
+                </h2>
+                <PlaylistSelection liftId={selectReceiver} />
+            </Modal>
+            <div className="flex flex-col gap-2 w-3/4">{playlistHtml}</div>
+        </>
+    );
 }
 
 export default EditMode;
