@@ -59,7 +59,14 @@ function PlaylistManager(props) {
     }
 
     let playlistHtml = playlistTracks.map((item) => (
-        <li className=" whitespace-nowrap h-[26px]" key={item.track.id}>
+        <li
+            className={
+                showEditMode
+                    ? "whitespace-nowrap h-[26px]"
+                    : "whitespace-nowrap h-[26px] pl-6"
+            }
+            key={item.track.id}
+        >
             {item.track.name}
         </li>
     ));
@@ -73,17 +80,19 @@ function PlaylistManager(props) {
             >
                 Simplify
             </button>
-            {showEditMode ? (
-                <EditMode
-                    playlist={playlistTracks}
-                    removeTracks={deleteTracks}
-                    moveTracks={transferTracks}
-                />
-            ) : (
+            <div className="flex w-3/4">
+                {showEditMode && (
+                    <EditMode
+                        playlist={playlistTracks}
+                        removeTracks={deleteTracks}
+                        moveTracks={transferTracks}
+                    />
+                )}
+
                 <ul className="flex flex-col gap-2 w-3/4 overflow-x-hidden">
                     {playlistHtml}
                 </ul>
-            )}
+            </div>
         </main>
     );
 }

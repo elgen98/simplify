@@ -1,12 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import SpotifyWebApi from "spotify-web-api-js";
 import Modal from "./Modal";
 import PlaylistSelection from "./PlaylistSelection";
 import { BiTransfer } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
-
-const spotify = new SpotifyWebApi();
 
 function EditMode(props) {
     const playlist = props.playlist;
@@ -26,10 +23,11 @@ function EditMode(props) {
 
     function selectReceiver(playlistId) {
         props.moveTracks(playlistId, selectedTracks);
+        setSelectedTracks([]);
     }
 
     let playlistHtml = playlist.map((item) => (
-        <label key={item.track.id} className="whitespace-nowrap ">
+        <label key={item.track.id} className="whitespace-nowrap w-6">
             <input
                 className=" w-6 h-6 align-middle"
                 type="checkbox"
@@ -37,8 +35,6 @@ function EditMode(props) {
                 value={item.track.uri}
                 onChange={toggleChecked}
             />
-
-            {item.track.name}
         </label>
     ));
 
@@ -49,7 +45,10 @@ function EditMode(props) {
                     <button
                         className="px-3 py-3 w-full bg-red-600 rounded-full"
                         title="Delete"
-                        onClick={() => props.removeTracks(selectedTracks)}
+                        onClick={() => {
+                            props.removeTracks(selectedTracks);
+                            setSelectedTracks([]);
+                        }}
                     >
                         <MdDelete />
                     </button>
@@ -68,7 +67,7 @@ function EditMode(props) {
                 </h2>
                 <PlaylistSelection liftId={selectReceiver} />
             </Modal>
-            <div className="flex flex-col gap-2 w-3/4 overflow-x-hidden">
+            <div className="flex flex-col gap-2 w-6 overflow-x-hidden">
                 {playlistHtml}
             </div>
         </>
