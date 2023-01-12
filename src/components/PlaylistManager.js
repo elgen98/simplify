@@ -50,6 +50,11 @@ function PlaylistManager(props) {
     setPlaylistTracks(result);
   }
 
+  function transferTracks(id, selectedTracks) {
+    spotify.addTracksToPlaylist(id, selectedTracks);
+    deleteTracks(selectedTracks);
+  }
+
   let playlistHtml = playlistTracks.map((item) => (
     <li key={item.track.id}>{item.track.name}</li>
   ));
@@ -59,7 +64,11 @@ function PlaylistManager(props) {
       <h2 className="text-2xl font-semibold ">{playlistName}</h2>
       <button onClick={toggleEditMode}>Simplify</button>
       {showEditMode ? (
-        <EditMode playlist={playlistTracks} removeTracks={deleteTracks} />
+        <EditMode
+          playlist={playlistTracks}
+          removeTracks={deleteTracks}
+          moveTracks={transferTracks}
+        />
       ) : (
         <ul className="flex flex-col gap-2 w-3/4">{playlistHtml}</ul>
       )}
