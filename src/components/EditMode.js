@@ -2,27 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import Modal from "./Modal";
+import PlaylistSelection from "./PlaylistSelection";
 
 const spotify = new SpotifyWebApi();
 
 function EditMode(props) {
   const playlist = props.playlist;
   const [selectedTracks, setSelectedTracks] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    Promise.all([spotify.getMe(), spotify.getUserPlaylists({ limit: 50 })])
-      .then((values) => {
-        let userId = values[0].id;
-        setPlaylists(
-          values[1].items.filter(function (item) {
-            return item.owner.id === userId;
-          })
-        );
-      })
-      .catch((err) => console.error(err));
-  }, []);
 
   function toggleChecked(e) {
     const { value, checked } = e.target;
@@ -31,6 +18,10 @@ function EditMode(props) {
     } else {
       setSelectedTracks(selectedTracks.filter((track) => track !== value));
     }
+  }
+
+  function selectReceiver(playlistId) {
+    props.moveTracks(playlistId, selectedTracks);
   }
 
   let playlistHtml = playlist.map((item) => (
@@ -61,7 +52,7 @@ function EditMode(props) {
         </div>
       )}
       <Modal open={open} onClose={() => setOpen(false)}>
-        Hello World!
+        <PlaylistSelection liftId={selectReceiver} />
       </Modal>
       <div className="flex flex-col gap-2 w-3/4">{playlistHtml}</div>
     </>

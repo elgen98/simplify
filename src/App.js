@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import { getTokenFromUrl } from "./spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 import PlaylistSelection from "./components/PlaylistSelection";
+import Simplify from "./components/Simplify";
 
 const spotify = new SpotifyWebApi();
 
@@ -22,9 +23,7 @@ function App() {
     }
   }, []);
 
-  return (
-    <div className=" h-screen">{token ? <PlaylistSelection /> : <Login />}</div>
-  );
+  return <div className=" h-screen">{token ? <Simplify /> : <Login />}</div>;
 }
 
 export default App;
