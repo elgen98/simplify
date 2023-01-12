@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
+import Modal from "./Modal";
 
 const spotify = new SpotifyWebApi();
 
@@ -8,6 +9,7 @@ function EditMode(props) {
   const playlist = props.playlist;
   const [selectedTracks, setSelectedTracks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     Promise.all([spotify.getMe(), spotify.getUserPlaylists({ limit: 50 })])
@@ -50,9 +52,17 @@ function EditMode(props) {
           <button onClick={() => props.removeTracks(selectedTracks)}>
             Delete
           </button>
-          <buttton>Move to another playlist</buttton>
+          <button
+            onClick={() => setOpen(true)}
+            className="px-4 py-3 bg-gray-200 rounded-full"
+          >
+            Move to another playlist
+          </button>
         </div>
       )}
+      <Modal open={open} onClose={() => setOpen(false)}>
+        Hello World!
+      </Modal>
       <div className="flex flex-col gap-2 w-3/4">{playlistHtml}</div>
     </>
   );
