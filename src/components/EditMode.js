@@ -29,7 +29,7 @@ function EditMode(props) {
     }
 
     let playlistHtml = playlist.map((item) => (
-        <label key={item.track.id} className="whitespace-nowrap">
+        <label key={item.track.id} className="whitespace-nowrap ">
             <input
                 className=" w-6 h-6 align-middle"
                 type="checkbox"
@@ -68,7 +68,7 @@ function EditMode(props) {
                 </h2>
                 <PlaylistSelection liftId={selectReceiver} />
             </Modal>
-            <div className="flex flex-col gap-2 w-[86.5%] overflow-x-hidden">
+            <div className="flex flex-col gap-2 w-3/4 overflow-x-hidden">
                 {playlistHtml}
             </div>
         </>
