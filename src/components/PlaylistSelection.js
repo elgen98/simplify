@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistManager from "./PlaylistManager";
 
 const spotify = new SpotifyWebApi();
 
-function PlaylistSelection() {
+function PlaylistSelection(props) {
   const [playlists, setPlaylists] = useState([]);
-  const [playlistId, setPlaylistId] = useState("");
 
   useEffect(() => {
     Promise.all([spotify.getMe(), spotify.getUserPlaylists({ limit: 50 })])
@@ -25,7 +23,7 @@ function PlaylistSelection() {
     <li
       key={playlist.id}
       onClick={() => {
-        setPlaylistId(playlist.id);
+        props.liftId(playlist.id);
       }}
     >
       {playlist.name}
@@ -34,14 +32,7 @@ function PlaylistSelection() {
 
   return (
     <>
-      {!playlistId ? (
-        <main className="flex flex-col justify-center items-center gap-4">
-          <h2 className="text-2xl font-semibold ">Your Playlists</h2>
-          <ul className="flex flex-col gap-2 w-3/4">{playlistGroupHtml}</ul>
-        </main>
-      ) : (
-        <PlaylistManager id={playlistId} />
-      )}
+      <ul className="flex flex-col gap-2 w-3/4">{playlistGroupHtml}</ul>
     </>
   );
 }
