@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import Login from "./components/Login";
 import { getTokenFromUrl } from "./spotify";
 import SpotifyWebApi from "spotify-web-api-js";
-import PlaylistSelection from "./components/PlaylistSelection";
-import PlaylistManager from "./components/PlaylistManager";
+import Simplify from "./components/Simplify";
 
 const spotify = new SpotifyWebApi();
 
 function App() {
     const [token, setToken] = useState("");
-    const [playlistId, setPlaylistId] = useState("");
 
     useEffect(() => {
         //GET token from url and resetting hash
@@ -23,23 +21,9 @@ function App() {
         }
     }, []);
 
-    function selectPlaylist(playlistId) {
-        setPlaylistId(playlistId);
-    }
-
-    let main = (
-        <div>
-            <h2 className="text-2xl font-semibold ">Your Playlists</h2>
-            <PlaylistSelection liftId={selectPlaylist} />
-        </div>
-    );
-    if (playlistId) {
-        main = <PlaylistManager id={playlistId} />;
-    }
-
     return (
         <main className="flex flex-col items-center gap-4 w-screen h-screen">
-            {token ? main : <Login />}
+            {token ? <Simplify /> : <Login />}
         </main>
     );
 }
