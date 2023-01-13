@@ -21,15 +21,12 @@ function PlaylistSelection(props) {
                 );
             })
             .catch((err) => console.error(err));
+        //loops 1 extra time because state. But need it for create new playlist //Fix?
         console.log("hey");
     }, [userId]);
 
     function createNewPlaylist() {
         spotify.createPlaylist(userId, { name: playlistName }).then((data) => {
-            //SetState works but puts new playlist at end off array which not the order the playlists are shown
-            /* let arr = playlists;
-            arr.unshift(data);
-            setPlaylists(arr); */
             setPlaylists([...playlists, data]);
             setPlaylistName("");
             props.liftId(data.id);
