@@ -9,7 +9,8 @@ function PlaylistManager(props) {
     const [showEditMode, setShowEditMode] = useState(false);
     const [playlistTracks, setPlaylistTracks] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
-
+    //Get all tracks from the selected playlist
+    //Fetch loop solution could be improved
     useEffect(() => {
         spotify
             .getPlaylist(playlistId)
@@ -44,7 +45,7 @@ function PlaylistManager(props) {
     function toggleEditMode() {
         setShowEditMode(!showEditMode);
     }
-
+    //Delete tracks
     function deleteTracks(selectedTracks) {
         spotify.removeTracksFromPlaylist(playlistId, selectedTracks);
         let result = playlistTracks.filter(
@@ -52,7 +53,7 @@ function PlaylistManager(props) {
         );
         setPlaylistTracks(result);
     }
-
+    //Move Tracks to another playlist
     function transferTracks(id, selectedTracks) {
         spotify.addTracksToPlaylist(id, selectedTracks);
         deleteTracks(selectedTracks);

@@ -10,6 +10,7 @@ function EditMode(props) {
     const [selectedTracks, setSelectedTracks] = useState([]);
     const [open, setOpen] = useState(false);
 
+    //Toggle selection status
     function toggleChecked(e) {
         const { value, checked } = e.target;
         if (checked) {
@@ -20,7 +21,7 @@ function EditMode(props) {
             );
         }
     }
-
+    //Get id from PlaylistSelection Modal and lifting to PlaylistManager
     function selectReceiver(playlistId) {
         props.moveTracks(playlistId, selectedTracks);
         setSelectedTracks([]);

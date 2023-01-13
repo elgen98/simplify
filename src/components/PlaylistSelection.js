@@ -6,6 +6,7 @@ const spotify = new SpotifyWebApi();
 function PlaylistSelection(props) {
     const [playlists, setPlaylists] = useState([]);
 
+    //Get the list of playlists owned by this user // Could be improved by using context and
     useEffect(() => {
         Promise.all([spotify.getMe(), spotify.getUserPlaylists({ limit: 50 })])
             .then((values) => {
