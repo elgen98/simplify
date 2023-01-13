@@ -81,6 +81,13 @@ function PlaylistManager(props) {
             >
                 Simplify
             </button>
+            <button
+                onClick={() => {
+                    props.liftId("");
+                }}
+            >
+                Back to playlists
+            </button>
             <div className="flex flex-row w-full ml-12">
                 {showEditMode && (
                     <EditMode
