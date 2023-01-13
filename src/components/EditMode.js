@@ -27,9 +27,12 @@ function EditMode(props) {
     }
 
     let playlistHtml = playlist.map((item) => (
-        <label key={item.track.id} className="whitespace-nowrap w-6">
+        <label
+            key={item.track.id}
+            className="whitespace-nowrap w-6 animate-slidingElement"
+        >
             <input
-                className=" w-6 h-6 align-middle"
+                className=" w-6 h-6 align-middle "
                 type="checkbox"
                 name="track"
                 value={item.track.uri}

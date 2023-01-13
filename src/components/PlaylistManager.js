@@ -72,7 +72,7 @@ function PlaylistManager(props) {
     ));
 
     return (
-        <main className="flex flex-col justify-center items-center gap-4 w-screen">
+        <>
             <h2 className="text-2xl font-semibold ">{playlistName}</h2>
             <button
                 className="w-20 rounded-full bg-yellow-300"
@@ -80,7 +80,7 @@ function PlaylistManager(props) {
             >
                 Simplify
             </button>
-            <div className="flex w-3/4">
+            <div className="flex flex-row w-full ml-12">
                 {showEditMode && (
                     <EditMode
                         playlist={playlistTracks}
@@ -93,7 +93,7 @@ function PlaylistManager(props) {
                     {playlistHtml}
                 </ul>
             </div>
-        </main>
+        </>
     );
 }
 
