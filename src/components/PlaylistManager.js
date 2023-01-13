@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import EditMode from "./EditMode";
+import PlaylistSelection from "./PlaylistSelection";
 
 const spotify = new SpotifyWebApi();
 
-function PlaylistManager(props) {
-    const playlistId = props.id;
+function PlaylistManager() {
+    const [playlistId, setPlaylistId] = useState("");
     const [showEditMode, setShowEditMode] = useState(false);
     const [playlistTracks, setPlaylistTracks] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
     //Get all tracks from the selected playlist
     //Fetch loop solution could be improved
     useEffect(() => {
-        spotify
-            .getPlaylist(playlistId)
-            .then(function (playlist) {
-                setPlaylistName(playlist.name);
-                return playlist.tracks.total;
-            })
-            .then(function (totalTracks) {
-                fetchLoop(totalTracks);
-            });
+        if (playlistId) {
+            window.history.pushState({}, "", "/manager");
+            spotify
+                .getPlaylist(playlistId)
+                .then(function (playlist) {
+                    setPlaylistName(playlist.name);
+                    return playlist.tracks.total;
+                })
+                .then(function (totalTracks) {
+                    fetchLoop(totalTracks);
+                });
+        }
 
         function fetchLoop(totalTracks) {
             let offset = 0;
@@ -40,10 +44,13 @@ function PlaylistManager(props) {
                 offset += requestSize;
             }
         }
-    }, []);
+    }, [playlistId]);
 
     function toggleEditMode() {
         setShowEditMode(!showEditMode);
+    }
+    function setId(id) {
+        setPlaylistId(id);
     }
     //Delete tracks
     function deleteTracks(selectedTracks) {
@@ -74,26 +81,32 @@ function PlaylistManager(props) {
 
     return (
         <>
-            <h2 className="text-2xl font-semibold ">{playlistName}</h2>
-            <button
-                className="w-20 rounded-full bg-yellow-300"
-                onClick={toggleEditMode}
-            >
-                Simplify
-            </button>
-            <div className="flex flex-row w-full ml-12">
-                {showEditMode && (
-                    <EditMode
-                        playlist={playlistTracks}
-                        removeTracks={deleteTracks}
-                        moveTracks={transferTracks}
-                    />
-                )}
+            {playlistId ? (
+                <>
+                    <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+                    <button
+                        className="w-20 rounded-full bg-yellow-300"
+                        onClick={toggleEditMode}
+                    >
+                        Simplify
+                    </button>
+                    <div className="flex flex-row w-full ml-12">
+                        {showEditMode && (
+                            <EditMode
+                                playlist={playlistTracks}
+                                removeTracks={deleteTracks}
+                                moveTracks={transferTracks}
+                            />
+                        )}
 
-                <ul className="flex flex-col gap-2 w-3/4 overflow-x-hidden">
-                    {playlistHtml}
-                </ul>
-            </div>
+                        <ul className="flex flex-col gap-2 w-3/4 overflow-x-hidden">
+                            {playlistHtml}
+                        </ul>
+                    </div>
+                </>
+            ) : (
+                <PlaylistSelection liftId={setId} />
+            )}
         </>
     );
 }

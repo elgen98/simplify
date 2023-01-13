@@ -18,6 +18,8 @@ function PlaylistSelection(props) {
                 );
             })
             .catch((err) => console.error(err));
+
+        window.history.pushState({}, "", "/playlists");
     }, []);
 
     let playlistGroupHtml = playlists.map((playlist) => (
