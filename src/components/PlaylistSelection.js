@@ -44,6 +44,7 @@ function PlaylistSelection(props) {
             key={playlist.id}
             onClick={() => {
                 props.liftId(playlist.id);
+                props.closeModal();
             }}
         >
             {playlist.name}
@@ -78,7 +79,14 @@ function PlaylistSelection(props) {
                             required
                         />
                     </label>
-                    <button onClick={createNewPlaylist}>Add</button>
+                    <button
+                        onClick={() => {
+                            createNewPlaylist();
+                            props.closeModal();
+                        }}
+                    >
+                        Add
+                    </button>
                 </div>
             )}
         </>

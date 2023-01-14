@@ -27,6 +27,10 @@ function EditMode(props) {
         setSelectedTracks([]);
     }
 
+    function terminateModal() {
+        setOpen(false);
+    }
+
     let playlistHtml = playlist.map((item) => (
         <label
             key={item.track.id}
@@ -69,7 +73,10 @@ function EditMode(props) {
                 <h2 className="font-semibold text-lg text-center">
                     Select receiving playlist
                 </h2>
-                <PlaylistSelection liftId={selectReceiver} />
+                <PlaylistSelection
+                    liftId={selectReceiver}
+                    closeModal={terminateModal}
+                />
             </Modal>
             <div className="flex flex-col gap-2 w-6 overflow-x-hidden">
                 {playlistHtml}
