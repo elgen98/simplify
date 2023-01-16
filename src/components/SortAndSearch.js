@@ -54,8 +54,8 @@ function SortAndSearch(props) {
             }
             return result;
         });
-
         console.log(filteredData);
+        props.liftSearchResult(filteredData);
     }
 
     return (
@@ -63,7 +63,7 @@ function SortAndSearch(props) {
             <div>
                 <label htmlFor="search-form">Search</label>
                 <input
-                    type="search"
+                    type="text"
                     id="search-form"
                     name="search-form"
                     placeholder="Search Song, Artist, or Album"

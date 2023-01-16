@@ -10,6 +10,7 @@ function PlaylistManager(props) {
     const [showEditMode, setShowEditMode] = useState(false);
     const [playlistTracks, setPlaylistTracks] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
+    const [searchResult, setSearchResult] = useState([]);
     //Get all tracks from the selected playlist
     //Fetch loop solution could be improved
     useEffect(() => {
@@ -55,29 +56,55 @@ function PlaylistManager(props) {
         setPlaylistTracks(
             playlistTracks.filter((x) => !selectedTracks.includes(x.track.uri))
         );
+        setSearchResult(
+            searchResult.filter((x) => !selectedTracks.includes(x.track.uri))
+        );
+        toggleEditMode();
     }
     //Move Tracks to another playlist
     function transferTracks(id, selectedTracks) {
         spotify.addTracksToPlaylist(id, selectedTracks);
         deleteTracks(selectedTracks);
+        toggleEditMode();
     }
 
     function sortPlaylist(orderedPlaylist) {
         setPlaylistTracks([...orderedPlaylist]);
+        setSearchResult([...orderedPlaylist]);
     }
 
-    let playlistHtml = playlistTracks.map((item) => (
-        <li
-            className={
-                showEditMode
-                    ? "whitespace-nowrap h-[26px]"
-                    : "whitespace-nowrap h-[26px] pl-6"
-            }
-            key={item.track.id}
-        >
-            {item.track.name}
-        </li>
-    ));
+    function showSearchResult(result) {
+        setSearchResult(result);
+    }
+
+    let playlistHtml;
+    if (searchResult.length > 0) {
+        playlistHtml = searchResult.map((item) => (
+            <li
+                className={
+                    showEditMode
+                        ? "whitespace-nowrap h-[26px]"
+                        : "whitespace-nowrap h-[26px] pl-6"
+                }
+                key={item.track.id}
+            >
+                {item.track.name}
+            </li>
+        ));
+    } else {
+        playlistHtml = playlistTracks.map((item) => (
+            <li
+                className={
+                    showEditMode
+                        ? "whitespace-nowrap h-[26px]"
+                        : "whitespace-nowrap h-[26px] pl-6"
+                }
+                key={item.track.id}
+            >
+                {item.track.name}
+            </li>
+        ));
+    }
 
     return (
         <>
@@ -85,6 +112,7 @@ function PlaylistManager(props) {
             <SortAndSearch
                 playlist={playlistTracks}
                 liftPlaylist={sortPlaylist}
+                liftSearchResult={showSearchResult}
             />
             <button
                 className="w-20 rounded-full bg-yellow-300"
@@ -102,7 +130,11 @@ function PlaylistManager(props) {
             <div className="flex flex-row w-full ml-12">
                 {showEditMode && (
                     <EditMode
-                        playlist={playlistTracks}
+                        playlist={
+                            searchResult.length > 0
+                                ? searchResult
+                                : playlistTracks
+                        }
                         removeTracks={deleteTracks}
                         moveTracks={transferTracks}
                     />
