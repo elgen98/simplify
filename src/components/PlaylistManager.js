@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import EditMode from "./EditMode";
+import SortAndSearch from "./SortAndSearch";
 
 const spotify = new SpotifyWebApi();
 
@@ -9,6 +10,7 @@ function PlaylistManager(props) {
     const [showEditMode, setShowEditMode] = useState(false);
     const [playlistTracks, setPlaylistTracks] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
+    const [searchResult, setSearchResult] = useState([]);
     //Get all tracks from the selected playlist
     //Fetch loop solution could be improved
     useEffect(() => {
@@ -35,6 +37,9 @@ function PlaylistManager(props) {
                     })
                     .then(function (data) {
                         testArray = testArray.concat(data.items);
+                        testArray.sort(function (a, b) {
+                            return new Date(a.added_at) - new Date(b.added_at);
+                        });
                         setPlaylistTracks(...playlistTracks, testArray);
                     });
                 offset += requestSize;
@@ -48,33 +53,67 @@ function PlaylistManager(props) {
     //Delete tracks
     function deleteTracks(selectedTracks) {
         spotify.removeTracksFromPlaylist(playlistId, selectedTracks);
-        let result = playlistTracks.filter(
-            (x) => !selectedTracks.includes(x.track.uri)
+        setPlaylistTracks(
+            playlistTracks.filter((x) => !selectedTracks.includes(x.track.uri))
         );
-        setPlaylistTracks(result);
+        setSearchResult(
+            searchResult.filter((x) => !selectedTracks.includes(x.track.uri))
+        );
+        toggleEditMode();
     }
     //Move Tracks to another playlist
     function transferTracks(id, selectedTracks) {
         spotify.addTracksToPlaylist(id, selectedTracks);
         deleteTracks(selectedTracks);
+        toggleEditMode();
     }
 
-    let playlistHtml = playlistTracks.map((item) => (
-        <li
-            className={
-                showEditMode
-                    ? "whitespace-nowrap h-[26px]"
-                    : "whitespace-nowrap h-[26px] pl-6"
-            }
-            key={item.track.id}
-        >
-            {item.track.name}
-        </li>
-    ));
+    function sortPlaylist(orderedPlaylist) {
+        setPlaylistTracks([...orderedPlaylist]);
+        setSearchResult([...orderedPlaylist]);
+    }
+
+    function showSearchResult(result) {
+        setSearchResult(result);
+    }
+
+    let playlistHtml;
+    if (searchResult.length > 0) {
+        playlistHtml = searchResult.map((item) => (
+            <li
+                className={
+                    showEditMode
+                        ? "whitespace-nowrap h-[26px]"
+                        : "whitespace-nowrap h-[26px] pl-6"
+                }
+                key={item.track.id}
+            >
+                {item.track.name}
+            </li>
+        ));
+    } else {
+        playlistHtml = playlistTracks.map((item) => (
+            <li
+                className={
+                    showEditMode
+                        ? "whitespace-nowrap h-[26px]"
+                        : "whitespace-nowrap h-[26px] pl-6"
+                }
+                key={item.track.id}
+            >
+                {item.track.name}
+            </li>
+        ));
+    }
 
     return (
         <>
             <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+            <SortAndSearch
+                playlist={playlistTracks}
+                liftPlaylist={sortPlaylist}
+                liftSearchResult={showSearchResult}
+            />
             <button
                 className="w-20 rounded-full bg-yellow-300"
                 onClick={toggleEditMode}
@@ -91,7 +130,11 @@ function PlaylistManager(props) {
             <div className="flex flex-row w-full ml-12">
                 {showEditMode && (
                     <EditMode
-                        playlist={playlistTracks}
+                        playlist={
+                            searchResult.length > 0
+                                ? searchResult
+                                : playlistTracks
+                        }
                         removeTracks={deleteTracks}
                         moveTracks={transferTracks}
                     />
