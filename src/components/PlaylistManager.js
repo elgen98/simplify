@@ -36,6 +36,9 @@ function PlaylistManager(props) {
                     })
                     .then(function (data) {
                         testArray = testArray.concat(data.items);
+                        testArray.sort(function (a, b) {
+                            return new Date(a.added_at) - new Date(b.added_at);
+                        });
                         setPlaylistTracks(...playlistTracks, testArray);
                     });
                 offset += requestSize;
