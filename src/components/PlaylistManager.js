@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import EditMode from "./EditMode";
+import SortAndSearch from "./SortAndSearch";
 
 const spotify = new SpotifyWebApi();
 
@@ -48,15 +49,18 @@ function PlaylistManager(props) {
     //Delete tracks
     function deleteTracks(selectedTracks) {
         spotify.removeTracksFromPlaylist(playlistId, selectedTracks);
-        let result = playlistTracks.filter(
-            (x) => !selectedTracks.includes(x.track.uri)
+        setPlaylistTracks(
+            playlistTracks.filter((x) => !selectedTracks.includes(x.track.uri))
         );
-        setPlaylistTracks(result);
     }
     //Move Tracks to another playlist
     function transferTracks(id, selectedTracks) {
         spotify.addTracksToPlaylist(id, selectedTracks);
         deleteTracks(selectedTracks);
+    }
+
+    function sortPlaylist(orderedPlaylist) {
+        setPlaylistTracks([...orderedPlaylist]);
     }
 
     let playlistHtml = playlistTracks.map((item) => (
@@ -75,6 +79,10 @@ function PlaylistManager(props) {
     return (
         <>
             <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+            <SortAndSearch
+                playlist={playlistTracks}
+                liftPlaylist={sortPlaylist}
+            />
             <button
                 className="w-20 rounded-full bg-yellow-300"
                 onClick={toggleEditMode}
