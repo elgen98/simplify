@@ -32,15 +32,26 @@ function EditMode(props) {
     }
 
     let playlistHtml = playlist.map((item) => (
-        <label key={item.track.id} className="h-6 whitespace-nowrap w-screen">
+        <label
+            key={item.track.id}
+            className="flex items-center h-12 whitespace-nowrap w-screen"
+        >
             <input
-                className="w-6 h-6 animate-slidingElement align-middle"
+                className="w-6 h-6 animate-slidingElement align-middle mr-2 flex-none"
                 type="checkbox"
                 name="track"
                 value={item.track.uri}
                 onChange={toggleChecked}
             />
-            {item.track.name}
+            <div>
+                <div>{item.track.name}</div>
+                <small>
+                    {item.track.artists.map((artist, index) => {
+                        return (index ? ", " : "") + artist.name;
+                    })}
+                </small>{" "}
+                - <small>{item.track.album.name}</small>
+            </div>
         </label>
     ));
 
@@ -78,7 +89,7 @@ function EditMode(props) {
                     />
                 )}
             </Modal>
-            <div className="flex flex-col gap-2 overflow-x-hidden">
+            <div className="flex flex-col gap-2 overflow-x-hidden w-full ml-12">
                 {playlistHtml}
             </div>
         </>

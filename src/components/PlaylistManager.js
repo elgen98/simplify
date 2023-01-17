@@ -81,6 +81,14 @@ function PlaylistManager(props) {
     let playlistHtml = playlistTracks.map((item) => (
         <li className="whitespace-nowrap" key={item.track.id}>
             {item.track.name}
+            <div>
+                <small>
+                    {item.track.artists.map((artist, index) => {
+                        return (index ? ", " : "") + artist.name;
+                    })}
+                </small>{" "}
+                - <small>{item.track.album.name}</small>
+            </div>
         </li>
     ));
 
@@ -88,6 +96,14 @@ function PlaylistManager(props) {
         playlistHtml = searchResult.map((item) => (
             <li className="whitespace-nowrap" key={item.track.id}>
                 {item.track.name}
+                <div>
+                    <small>
+                        {item.track.artists.map((artist, index) => {
+                            return (index ? ", " : "") + artist.name;
+                        })}
+                    </small>{" "}
+                    - <small>{item.track.album.name}</small>
+                </div>
             </li>
         ));
     }
