@@ -35,8 +35,8 @@ function PlaylistSelection(props) {
         setShow(false);
     }
 
-    function handleChange(e) {
-        setPlaylistName(e.target.value);
+    function handleNameInput(value) {
+        setPlaylistName(value);
     }
 
     let playlistGroupHtml = playlists.map((playlist) => (
@@ -75,7 +75,9 @@ function PlaylistSelection(props) {
                         <input
                             type="text"
                             value={playlistName}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                                handleNameInput(e.target.value);
+                            }}
                             required
                         />
                     </label>
