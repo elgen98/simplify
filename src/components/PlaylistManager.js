@@ -128,7 +128,7 @@ function PlaylistManager(props) {
             >
                 Back to playlists
             </button>
-            <div className="flex flex-row justify-center w-full ml-12">
+            <div className="flex flex-row w-full ml-12">
                 {showEditMode && (
                     <EditMode
                         playlist={
