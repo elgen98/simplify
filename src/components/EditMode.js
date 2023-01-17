@@ -32,17 +32,15 @@ function EditMode(props) {
     }
 
     let playlistHtml = playlist.map((item) => (
-        <label
-            key={item.track.id}
-            className="whitespace-nowrap w-6 animate-slidingElement"
-        >
+        <label key={item.track.id} className="h-6 whitespace-nowrap w-screen">
             <input
-                className=" w-6 h-6 align-middle "
+                className="w-6 h-6 animate-slidingElement align-middle"
                 type="checkbox"
                 name="track"
                 value={item.track.uri}
                 onChange={toggleChecked}
             />
+            {item.track.name}
         </label>
     ));
 
@@ -80,7 +78,7 @@ function EditMode(props) {
                     />
                 )}
             </Modal>
-            <div className="flex flex-col gap-2 w-6 overflow-x-hidden">
+            <div className="flex flex-col gap-2 overflow-x-hidden">
                 {playlistHtml}
             </div>
         </>

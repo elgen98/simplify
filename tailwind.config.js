@@ -14,7 +14,7 @@ module.exports = {
                 },
             },
             animation: {
-                slidingElement: "slideFromLeft 0.1s linear",
+                slidingElement: "slideFromLeft 0.2s ease-out",
             },
             colors: {
                 "nice-gray": "#A0B9D9",
