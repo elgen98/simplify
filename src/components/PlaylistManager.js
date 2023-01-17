@@ -146,7 +146,9 @@ function PlaylistManager(props) {
                         {playlistHtml}
                     </ul>
                 ) : (
-                    <LoadingIcons.Circles fill="#F2B705" />
+                    <div className="mx-auto">
+                        <LoadingIcons.Circles fill="#F2B705" />
+                    </div>
                 )}
             </div>
         </>

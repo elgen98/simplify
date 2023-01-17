@@ -73,10 +73,12 @@ function EditMode(props) {
                 <h2 className="font-semibold text-lg text-center">
                     Select receiving playlist
                 </h2>
-                <PlaylistSelection
-                    liftId={selectReceiver}
-                    closeModal={terminateModal}
-                />
+                {open && (
+                    <PlaylistSelection
+                        liftId={selectReceiver}
+                        closeModal={terminateModal}
+                    />
+                )}
             </Modal>
             <div className="flex flex-col gap-2 w-6 overflow-x-hidden">
                 {playlistHtml}
