@@ -95,9 +95,11 @@ function PlaylistManager(props) {
     const renderText = () => {
         if (playlistTracks.length > 0 && showEditMode === false) {
             return (
-                <ul className="flex flex-col gap-2 overflow-x-hidden">
-                    {playlistHtml}
-                </ul>
+                <div className="w-full ml-12">
+                    <ul className="flex flex-col gap-2 overflow-x-hidden">
+                        {playlistHtml}
+                    </ul>
+                </div>
             );
         } else if (showEditMode === true) {
             return (
@@ -111,11 +113,7 @@ function PlaylistManager(props) {
             );
         }
 
-        return (
-            <div className="mx-auto">
-                <LoadingIcons.Circles fill="#F2B705" />
-            </div>
-        );
+        return <LoadingIcons.Circles fill="#F2B705" />;
     };
 
     return (
@@ -139,7 +137,7 @@ function PlaylistManager(props) {
             >
                 Back to playlists
             </button>
-            <div className="flex flex-row w-full ml-12">{renderText()};</div>
+            {renderText()}
         </>
     );
 }
