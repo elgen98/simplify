@@ -53,7 +53,9 @@ function PlaylistSelection(props) {
 
     return (
         <>
-            <ul className="flex flex-col gap-2 w-3/4">{playlistGroupHtml}</ul>
+            <ul className="w-3/4 flex flex-col items-start gap-2">
+                {playlistGroupHtml}
+            </ul>
             {!show ? (
                 <button
                     onClick={() => {
