@@ -27,16 +27,18 @@ function Simplify() {
                     </button>
                 </nav>
             </header>
-            {playlistId ? (
-                <PlaylistManager id={playlistId} liftId={selectPlaylist} />
-            ) : (
-                <div className=" w-full flex flex-col items-center gap-4 md:w-3/4 xl:w-2/4 2xl:w-2/5">
-                    <h2 className="text-2xl font-semibold text-nice-yellow font-outline-05 ">
-                        Your Playlists
-                    </h2>
-                    <PlaylistSelection liftId={selectPlaylist} />
-                </div>
-            )}
+            <div className=" w-full flex flex-col items-center justify-center gap-4 md:w-3/4 xl:w-2/4 2xl:w-2/5">
+                {playlistId ? (
+                    <PlaylistManager id={playlistId} liftId={selectPlaylist} />
+                ) : (
+                    <>
+                        <h2 className="text-2xl font-semibold text-nice-yellow font-outline-05 ">
+                            Your Playlists
+                        </h2>
+                        <PlaylistSelection liftId={selectPlaylist} />
+                    </>
+                )}
+            </div>
         </>
     );
 }

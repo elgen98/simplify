@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
+import LoadingIcons from "react-loading-icons";
 
 const spotify = new SpotifyWebApi();
 
@@ -51,47 +52,59 @@ function PlaylistSelection(props) {
         </li>
     ));
 
-    return (
-        <>
-            <ul className="w-3/4 flex flex-col items-start gap-2">
-                {playlistGroupHtml}
-            </ul>
-            {!show ? (
+    let createBtn = (
+        <button
+            onClick={() => {
+                setShow(true);
+            }}
+        >
+            Create new Playlist
+        </button>
+    );
+
+    if (show) {
+        createBtn = (
+            <div>
                 <button
                     onClick={() => {
-                        setShow(true);
+                        setShow(false);
                     }}
                 >
-                    Create new Playlist
+                    Close
                 </button>
+                <label>
+                    <input
+                        type="text"
+                        value={playlistName}
+                        onChange={(e) => {
+                            handleNameInput(e.target.value);
+                        }}
+                        required
+                    />
+                </label>
+                <button
+                    onClick={() => {
+                        createNewPlaylist();
+                        props.closeModal();
+                    }}
+                >
+                    Add
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <>
+            {playlists.length > 0 ? (
+                <>
+                    <ul className="w-3/4 flex flex-col items-start gap-2">
+                        {playlistGroupHtml}
+                    </ul>
+                    {createBtn}
+                </>
             ) : (
-                <div>
-                    <button
-                        onClick={() => {
-                            setShow(false);
-                        }}
-                    >
-                        Close
-                    </button>
-                    <label>
-                        <input
-                            type="text"
-                            value={playlistName}
-                            onChange={(e) => {
-                                handleNameInput(e.target.value);
-                            }}
-                            required
-                        />
-                    </label>
-                    <button
-                        onClick={() => {
-                            createNewPlaylist();
-                            props.closeModal();
-                        }}
-                    >
-                        Add
-                    </button>
-                </div>
+                <LoadingIcons.Circles fill="#F2B705" />
             )}
         </>
     );

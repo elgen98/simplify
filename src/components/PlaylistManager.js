@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
+import LoadingIcons from "react-loading-icons";
 import EditMode from "./EditMode";
 import SortAndSearch from "./SortAndSearch";
 
@@ -127,7 +128,7 @@ function PlaylistManager(props) {
             >
                 Back to playlists
             </button>
-            <div className="flex flex-row w-full ml-12">
+            <div className="flex flex-row justify-center w-full ml-12">
                 {showEditMode && (
                     <EditMode
                         playlist={
@@ -140,9 +141,13 @@ function PlaylistManager(props) {
                     />
                 )}
 
-                <ul className="flex flex-col gap-2 w-3/4 overflow-x-hidden">
-                    {playlistHtml}
-                </ul>
+                {playlistTracks.length > 0 ? (
+                    <ul className="flex flex-col gap-2 overflow-x-hidden">
+                        {playlistHtml}
+                    </ul>
+                ) : (
+                    <LoadingIcons.Circles fill="#F2B705" />
+                )}
             </div>
         </>
     );
