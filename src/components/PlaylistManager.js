@@ -79,9 +79,12 @@ function PlaylistManager(props) {
     }
 
     let playlistHtml = playlistTracks.map((item) => (
-        <li className="whitespace-nowrap" key={item.track.id}>
+        <li
+            className="whitespace-nowrap text-ellipsis overflow-x-hidden"
+            key={item.track.id}
+        >
             {item.track.name}
-            <div>
+            <div className="text-ellipsis overflow-x-hidden">
                 <small>
                     {item.track.artists.map((artist, index) => {
                         return (index ? ", " : "") + artist.name;
@@ -94,9 +97,12 @@ function PlaylistManager(props) {
 
     if (searchResult.length > 0) {
         playlistHtml = searchResult.map((item) => (
-            <li className="whitespace-nowrap" key={item.track.id}>
+            <li
+                className="whitespace-nowrap text-ellipsis overflow-x-hidden"
+                key={item.track.id}
+            >
                 {item.track.name}
-                <div>
+                <div className="text-ellipsis overflow-x-hidden">
                     <small>
                         {item.track.artists.map((artist, index) => {
                             return (index ? ", " : "") + artist.name;
@@ -111,10 +117,8 @@ function PlaylistManager(props) {
     const renderText = () => {
         if (playlistTracks.length > 0 && showEditMode === false) {
             return (
-                <div className="w-full ml-12">
-                    <ul className="flex flex-col gap-2 overflow-x-hidden">
-                        {playlistHtml}
-                    </ul>
+                <div className=" w-11/12">
+                    <ul className="flex flex-col gap-2">{playlistHtml}</ul>
                 </div>
             );
         } else if (showEditMode === true) {
