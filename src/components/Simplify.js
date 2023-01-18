@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import PlaylistManager from "./PlaylistManager";
 import PlaylistSelection from "./PlaylistSelection";
+import { BsGithub, BsLinkedin } from "react-icons/bs";
 
 const spotify = new SpotifyWebApi();
 function Simplify() {
@@ -39,6 +40,26 @@ function Simplify() {
                     </>
                 )}
             </div>
+            <footer className="w-full bg-gray-600 flex justify-center mt-auto">
+                <div className="flex items-center justify-center gap-28 p-2 md:w-3/4 xl:w-2/4 2xl:w-2/5">
+                    <a
+                        href="https://github.com/elgen98"
+                        target="_blank"
+                        title="GitHub Project"
+                        className="text-3xl text-slate-100"
+                    >
+                        <BsGithub />
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/elliot-blomqvist-04946516a/"
+                        target="_blank"
+                        title="My Linkedin"
+                        className="text-3xl text-slate-100"
+                    >
+                        <BsLinkedin />
+                    </a>
+                </div>
+            </footer>
         </>
     );
 }
