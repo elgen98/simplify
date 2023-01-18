@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import LoadingIcons from "react-loading-icons";
+import { GrClose } from "react-icons/gr";
 
 const spotify = new SpotifyWebApi();
 
@@ -54,6 +55,7 @@ function PlaylistSelection(props) {
 
     let createBtn = (
         <button
+            className="rounded-full w-40 bg-gray-600 text-nice-yellow"
             onClick={() => {
                 setShow(true);
             }}
@@ -64,13 +66,18 @@ function PlaylistSelection(props) {
 
     if (show) {
         createBtn = (
-            <div>
+            <form
+                onSubmit={() => {
+                    createNewPlaylist();
+                    props.closeModal();
+                }}
+            >
                 <button
                     onClick={() => {
                         setShow(false);
                     }}
                 >
-                    Close
+                    <GrClose />
                 </button>
                 <label>
                     <input
@@ -82,15 +89,8 @@ function PlaylistSelection(props) {
                         required
                     />
                 </label>
-                <button
-                    onClick={() => {
-                        createNewPlaylist();
-                        props.closeModal();
-                    }}
-                >
-                    Add
-                </button>
-            </div>
+                <button type="submit">Add</button>
+            </form>
         );
     }
 
