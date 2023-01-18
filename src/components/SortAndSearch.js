@@ -28,7 +28,6 @@ function SortAndSearch(props) {
                 return 0;
             });
         }
-        console.log(playlist);
         props.liftPlaylist(playlist);
     }
 

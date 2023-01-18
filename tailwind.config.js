@@ -3,6 +3,10 @@ module.exports = {
     content: ["./src/**/*.{html,js}", "./public/index.html"],
     theme: {
         extend: {
+            screens: {
+                "3xl": "2560px",
+                "4xl": "3750px",
+            },
             keyframes: {
                 slideFromLeft: {
                     "0%": {
@@ -21,8 +25,11 @@ module.exports = {
                 "nice-yellow": "#F2B705",
             },
             inset: {
-                "83%": "83%",
+                "85%": "85%",
+                "60%": "60%",
+                "55%": "55%",
                 "20%": "20%",
+                "15%": "15%",
             },
         },
     },

@@ -59,27 +59,6 @@ function EditMode(props) {
 
     return (
         <>
-            {selectedTracks.length > 0 && (
-                <div className="fixed top-83% right-0 md:right-20% md:top-1/3 lg:top-1/4 lg:right-1/4 flex flex-col gap-3 m-3">
-                    <button
-                        className="px-3 py-3 w-full bg-red-600 rounded-full"
-                        title="Delete"
-                        onClick={() => {
-                            props.removeTracks(selectedTracks);
-                            setSelectedTracks([]);
-                        }}
-                    >
-                        <MdDelete />
-                    </button>
-                    <button
-                        className="px-3 py-3 bg-orange-400 rounded-full"
-                        title="Transfer"
-                        onClick={() => setOpen(true)}
-                    >
-                        <BiTransfer />
-                    </button>
-                </div>
-            )}
             <Modal open={open} onClose={() => setOpen(false)}>
                 <h2 className="font-semibold text-lg text-center">
                     Select receiving playlist
@@ -92,6 +71,27 @@ function EditMode(props) {
                 )}
             </Modal>
             <div className="flex flex-col gap-2 overflow-x-hidden w-11/12">
+                {selectedTracks.length > 0 && (
+                    <div className="fixed flex flex-col gap-2 left-85% top-85% xl:left-2/3 xl:top-1/4 3xl:left-60% 3xl:top-20% 4xl:left-55% 4xl:top-15%">
+                        <button
+                            className="px-3 py-3 bg-red-600 rounded-full"
+                            title="Delete"
+                            onClick={() => {
+                                props.removeTracks(selectedTracks);
+                                setSelectedTracks([]);
+                            }}
+                        >
+                            <MdDelete />
+                        </button>
+                        <button
+                            className="px-3 py-3 bg-orange-400 rounded-full"
+                            title="Transfer"
+                            onClick={() => setOpen(true)}
+                        >
+                            <BiTransfer />
+                        </button>
+                    </div>
+                )}
                 {playlistHtml}
             </div>
         </>
