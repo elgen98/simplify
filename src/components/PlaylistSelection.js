@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import LoadingIcons from "react-loading-icons";
-import { GrClose } from "react-icons/gr";
+import { GrClose, GrAdd } from "react-icons/gr";
 
 const spotify = new SpotifyWebApi();
 
@@ -43,6 +43,7 @@ function PlaylistSelection(props) {
 
     let playlistGroupHtml = playlists.map((playlist) => (
         <li
+            className="cursor-pointer"
             key={playlist.id}
             onClick={() => {
                 props.liftId(playlist.id);
@@ -55,18 +56,19 @@ function PlaylistSelection(props) {
 
     let createBtn = (
         <button
-            className="rounded-full w-40 bg-gray-600 text-nice-yellow"
+            className="rounded-full w-32 bg-gray-600 text-nice-yellow"
             onClick={() => {
                 setShow(true);
             }}
         >
-            Create new Playlist
+            New Playlist
         </button>
     );
 
     if (show) {
         createBtn = (
             <form
+                className="flex gap-2"
                 onSubmit={() => {
                     createNewPlaylist();
                     props.closeModal();
@@ -81,6 +83,7 @@ function PlaylistSelection(props) {
                 </button>
                 <label>
                     <input
+                        className="rounded-full bg-gray-600 text-nice-yellow px-2"
                         type="text"
                         value={playlistName}
                         onChange={(e) => {
@@ -89,7 +92,9 @@ function PlaylistSelection(props) {
                         required
                     />
                 </label>
-                <button type="submit">Add</button>
+                <button type="submit">
+                    <GrAdd />
+                </button>
             </form>
         );
     }

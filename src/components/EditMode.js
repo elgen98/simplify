@@ -37,7 +37,7 @@ function EditMode(props) {
             className="flex items-center h-12 whitespace-nowrap w-full drop-shadow-blueText pointer-events-none"
         >
             <input
-                className="w-6 h-6 animate-slidingElement align-middle mr-2 flex-none pointer-events-auto"
+                className="w-6 h-6 animate-slidingElement align-middle mr-2 flex-none pointer-events-auto cursor-pointer"
                 type="checkbox"
                 name="track"
                 value={item.track.uri}
@@ -73,7 +73,7 @@ function EditMode(props) {
                             <MdDelete />
                         </button>
                         <button
-                            className="px-3 py-3 bg-orange-400 rounded-full "
+                            className="px-3 py-3 bg-orange-400 rounded-full"
                             title="Transfer"
                             onClick={() => setOpen(true)}
                         >
@@ -84,7 +84,7 @@ function EditMode(props) {
                 {playlistHtml}
             </div>
             <Modal open={open} onClose={() => setOpen(false)}>
-                <h2 className="font-semibold text-lg text-center">
+                <h2 className="font-bold text-xl text-nice-blue font-outline-05">
                     Select receiving playlist
                 </h2>
                 {open && (
