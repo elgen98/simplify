@@ -32,12 +32,15 @@ function Modal({ open, onClose, children }) {
             />
 
             <div
-                className={`fixed inset-0 h-full bg-white shadow-lg w-full max-w-screen-sm p-4 mx-auto scroll-smooth overflow-x-hidden overflow-y-auto ${
+                className={`fixed inset-0 h-full flex flex-col bg-nice-orange shadow-lg w-full max-w-screen-sm p-4 mx-auto scroll-smooth overflow-x-hidden overflow-y-auto ${
                     open ? "opacity-100" : "pointer-events-none opacity-0"
                 } transition-opacity duration-300 ease-in-out`}
             >
                 <div className="flex flex-row justify-end">
-                    <button onClick={onClose}>
+                    <button
+                        className="px-3 py-3 bg-red-600 rounded-full"
+                        onClick={onClose}
+                    >
                         <GrClose />
                     </button>
                 </div>

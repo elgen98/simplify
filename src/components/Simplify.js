@@ -32,7 +32,7 @@ function Simplify() {
                     <PlaylistManager id={playlistId} liftId={selectPlaylist} />
                 ) : (
                     <>
-                        <h2 className="text-2xl font-semibold text-nice-yellow font-outline-05 ">
+                        <h2 className="text-2xl font-semibold text-nice-orange font-outline-05 ">
                             Your Playlists
                         </h2>
                         <PlaylistSelection liftId={selectPlaylist} />

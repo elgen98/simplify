@@ -98,7 +98,7 @@ function PlaylistSelection(props) {
         <>
             {playlists.length > 0 ? (
                 <>
-                    <ul className="w-3/4 flex flex-col items-start gap-2">
+                    <ul className="w-3/4 flex flex-col items-start gap-2 drop-shadow-blueText">
                         {playlistGroupHtml}
                     </ul>
                     {createBtn}

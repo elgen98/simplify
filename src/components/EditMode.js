@@ -34,17 +34,17 @@ function EditMode(props) {
     let playlistHtml = playlist.map((item) => (
         <label
             key={item.track.id}
-            className="flex items-center h-12 whitespace-nowrap w-full"
+            className="flex items-center h-12 whitespace-nowrap w-full drop-shadow-blueText pointer-events-none"
         >
             <input
-                className="w-6 h-6 animate-slidingElement align-middle mr-2 flex-none"
+                className="w-6 h-6 animate-slidingElement align-middle mr-2 flex-none pointer-events-auto"
                 type="checkbox"
                 name="track"
                 value={item.track.uri}
                 onChange={toggleChecked}
             />
-            <div className="text-ellipsis overflow-x-hidden">
-                <div className="text-ellipsis overflow-x-hidden">
+            <div className="text-ellipsis overflow-x-hidden ">
+                <div className="text-ellipsis overflow-x-hidden ">
                     {item.track.name}
                 </div>
                 <small>
@@ -59,17 +59,6 @@ function EditMode(props) {
 
     return (
         <>
-            <Modal open={open} onClose={() => setOpen(false)}>
-                <h2 className="font-semibold text-lg text-center">
-                    Select receiving playlist
-                </h2>
-                {open && (
-                    <PlaylistSelection
-                        liftId={selectReceiver}
-                        closeModal={terminateModal}
-                    />
-                )}
-            </Modal>
             <div className="flex flex-col gap-2 overflow-x-hidden w-11/12">
                 {selectedTracks.length > 0 && (
                     <div className="fixed flex flex-col gap-2 left-85% top-85% xl:left-2/3 xl:top-1/4 3xl:left-60% 3xl:top-20% 4xl:left-55% 4xl:top-15%">
@@ -84,7 +73,7 @@ function EditMode(props) {
                             <MdDelete />
                         </button>
                         <button
-                            className="px-3 py-3 bg-orange-400 rounded-full"
+                            className="px-3 py-3 bg-orange-400 rounded-full "
                             title="Transfer"
                             onClick={() => setOpen(true)}
                         >
@@ -94,6 +83,17 @@ function EditMode(props) {
                 )}
                 {playlistHtml}
             </div>
+            <Modal open={open} onClose={() => setOpen(false)}>
+                <h2 className="font-semibold text-lg text-center">
+                    Select receiving playlist
+                </h2>
+                {open && (
+                    <PlaylistSelection
+                        liftId={selectReceiver}
+                        closeModal={terminateModal}
+                    />
+                )}
+            </Modal>
         </>
     );
 }

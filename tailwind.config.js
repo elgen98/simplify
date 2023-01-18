@@ -23,6 +23,8 @@ module.exports = {
             colors: {
                 "nice-gray": "#A0B9D9",
                 "nice-yellow": "#F2B705",
+                "nice-orange": "#F29F05",
+                "nice-blue": "#0378A6",
             },
             inset: {
                 "85%": "85%",
@@ -30,6 +32,9 @@ module.exports = {
                 "55%": "55%",
                 "20%": "20%",
                 "15%": "15%",
+            },
+            dropShadow: {
+                blueText: "1px 1px 1px rgba(3,120,166,1.000)",
             },
         },
     },

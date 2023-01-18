@@ -81,7 +81,7 @@ function PlaylistManager(props) {
 
     let playlistHtml = playlistTracks.map((item) => (
         <li
-            className="whitespace-nowrap text-ellipsis overflow-x-hidden"
+            className="whitespace-nowrap text-ellipsis overflow-x-hidden drop-shadow-blueText"
             key={item.track.id}
         >
             {item.track.name}
@@ -99,7 +99,7 @@ function PlaylistManager(props) {
     if (searchResult.length > 0) {
         playlistHtml = searchResult.map((item) => (
             <li
-                className="whitespace-nowrap text-ellipsis overflow-x-hidden"
+                className="whitespace-nowrap text-ellipsis overflow-x-hidden drop-shadow-blueText"
                 key={item.track.id}
             >
                 {item.track.name}
@@ -148,14 +148,16 @@ function PlaylistManager(props) {
                 <TfiArrowCircleLeft />
                 Back to playlists
             </button>
-            <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+            <h2 className="text-2xl font-semibold text-nice-orange font-outline-05">
+                {playlistName}
+            </h2>
             <SortAndSearch
                 playlist={playlistTracks}
                 liftPlaylist={sortPlaylist}
                 liftSearchResult={showSearchResult}
             />
             <button
-                className="w-20 rounded-full bg-yellow-300"
+                className="mr-auto w-20 rounded-full bg-yellow-300 ml-4 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-200 hover:shadow-lg"
                 onClick={toggleEditMode}
             >
                 Simplify
