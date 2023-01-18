@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ImSearch } from "react-icons/im";
+import { BiSort } from "react-icons/bi";
 
 function SortAndSearch(props) {
     let playlist = props.playlist;
@@ -58,10 +60,16 @@ function SortAndSearch(props) {
     }
 
     return (
-        <div>
-            <div>
-                <label htmlFor="search-form">Search</label>
+        <div className="flex flex-col items-center gap-2 md:w-full md:flex-row md:justify-center md:gap-6">
+            <div className="flex flex-row-reverse items-center gap-2">
+                <label
+                    htmlFor="search-form"
+                    className="text-nice-yellow text-2xl"
+                >
+                    <ImSearch />
+                </label>
                 <input
+                    className="rounded-full bg-gray-600 py-1 px-1 text-nice-yellow placeholder:text-nice-yellow"
                     type="text"
                     id="search-form"
                     name="search-form"
@@ -70,9 +78,12 @@ function SortAndSearch(props) {
                     onChange={(e) => searchItems(e.target.value)}
                 />
             </div>
-            <div>
-                <label htmlFor="sort">Sort</label>
+            <div className="flex flex-row-reverse items-center gap-2">
+                <label htmlFor="sort" className="text-nice-yellow text-2xl">
+                    <BiSort />
+                </label>
                 <select
+                    className="rounded-full bg-gray-600 py-1 px-1 text-nice-yellow"
                     name="sort"
                     id="sort"
                     onChange={(e) => sorting(e.target.value)}
