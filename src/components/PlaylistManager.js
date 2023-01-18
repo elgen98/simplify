@@ -157,7 +157,7 @@ function PlaylistManager(props) {
                 liftSearchResult={showSearchResult}
             />
             <button
-                className="mr-auto w-20 rounded-full bg-yellow-300 ml-4 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-200 hover:shadow-lg"
+                className="mr-auto w-20 rounded-full bg-nice-yellow ml-4 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-200 hover:shadow-lg"
                 onClick={toggleEditMode}
             >
                 Simplify
