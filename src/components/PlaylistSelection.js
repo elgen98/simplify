@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
+import LoadingIcons from "react-loading-icons";
+import { GrClose, GrAdd } from "react-icons/gr";
 
 const spotify = new SpotifyWebApi();
 
@@ -41,6 +43,7 @@ function PlaylistSelection(props) {
 
     let playlistGroupHtml = playlists.map((playlist) => (
         <li
+            className="cursor-pointer"
             key={playlist.id}
             onClick={() => {
                 props.liftId(playlist.id);
@@ -51,45 +54,62 @@ function PlaylistSelection(props) {
         </li>
     ));
 
-    return (
-        <>
-            <ul className="flex flex-col gap-2 w-3/4">{playlistGroupHtml}</ul>
-            {!show ? (
+    let createBtn = (
+        <button
+            className="rounded-full w-32 bg-gray-600 text-nice-yellow"
+            onClick={() => {
+                setShow(true);
+            }}
+        >
+            New Playlist
+        </button>
+    );
+
+    if (show) {
+        createBtn = (
+            <form
+                className="flex gap-2"
+                onSubmit={() => {
+                    createNewPlaylist();
+                    props.closeModal();
+                }}
+            >
                 <button
                     onClick={() => {
-                        setShow(true);
+                        setShow(false);
                     }}
                 >
-                    Create new Playlist
+                    <GrClose />
                 </button>
+                <label>
+                    <input
+                        className="rounded-full bg-gray-600 text-nice-yellow px-2"
+                        type="text"
+                        value={playlistName}
+                        onChange={(e) => {
+                            handleNameInput(e.target.value);
+                        }}
+                        required
+                    />
+                </label>
+                <button type="submit">
+                    <GrAdd />
+                </button>
+            </form>
+        );
+    }
+
+    return (
+        <>
+            {playlists.length > 0 ? (
+                <>
+                    <ul className="w-3/4 flex flex-col items-start gap-2 drop-shadow-blueText">
+                        {playlistGroupHtml}
+                    </ul>
+                    {createBtn}
+                </>
             ) : (
-                <div>
-                    <button
-                        onClick={() => {
-                            setShow(false);
-                        }}
-                    >
-                        Close
-                    </button>
-                    <label>
-                        <input
-                            type="text"
-                            value={playlistName}
-                            onChange={(e) => {
-                                handleNameInput(e.target.value);
-                            }}
-                            required
-                        />
-                    </label>
-                    <button
-                        onClick={() => {
-                            createNewPlaylist();
-                            props.closeModal();
-                        }}
-                    >
-                        Add
-                    </button>
-                </div>
+                <LoadingIcons.Circles fill="#F2B705" />
             )}
         </>
     );

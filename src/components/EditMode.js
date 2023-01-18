@@ -34,53 +34,66 @@ function EditMode(props) {
     let playlistHtml = playlist.map((item) => (
         <label
             key={item.track.id}
-            className="whitespace-nowrap w-6 animate-slidingElement"
+            className="flex items-center h-12 whitespace-nowrap w-full drop-shadow-blueText pointer-events-none"
         >
             <input
-                className=" w-6 h-6 align-middle "
+                className="w-6 h-6 animate-slidingElement align-middle mr-2 flex-none pointer-events-auto cursor-pointer"
                 type="checkbox"
                 name="track"
                 value={item.track.uri}
                 onChange={toggleChecked}
             />
+            <div className="text-ellipsis overflow-x-hidden ">
+                <div className="text-ellipsis overflow-x-hidden ">
+                    {item.track.name}
+                </div>
+                <small>
+                    {item.track.artists.map((artist, index) => {
+                        return (index ? ", " : "") + artist.name;
+                    })}
+                </small>{" "}
+                - <small>{item.track.album.name}</small>
+            </div>
         </label>
     ));
 
     return (
         <>
-            {selectedTracks.length > 0 && (
-                <div className="fixed top-0 right-0 flex flex-col gap-2 m-3">
-                    <button
-                        className="px-3 py-3 w-full bg-red-600 rounded-full"
-                        title="Delete"
-                        onClick={() => {
-                            props.removeTracks(selectedTracks);
-                            setSelectedTracks([]);
-                        }}
-                    >
-                        <MdDelete />
-                    </button>
-                    <button
-                        className="px-3 py-3 bg-orange-400 rounded-full"
-                        title="Transfer"
-                        onClick={() => setOpen(true)}
-                    >
-                        <BiTransfer />
-                    </button>
-                </div>
-            )}
-            <Modal open={open} onClose={() => setOpen(false)}>
-                <h2 className="font-semibold text-lg text-center">
-                    Select receiving playlist
-                </h2>
-                <PlaylistSelection
-                    liftId={selectReceiver}
-                    closeModal={terminateModal}
-                />
-            </Modal>
-            <div className="flex flex-col gap-2 w-6 overflow-x-hidden">
+            <div className="flex flex-col gap-2 overflow-x-hidden w-11/12">
+                {selectedTracks.length > 0 && (
+                    <div className="fixed flex flex-col gap-2 left-85% top-85% xl:left-2/3 xl:top-1/4 3xl:left-60% 3xl:top-20% 4xl:left-55% 4xl:top-15%">
+                        <button
+                            className="px-3 py-3 bg-red-600 rounded-full"
+                            title="Delete"
+                            onClick={() => {
+                                props.removeTracks(selectedTracks);
+                                setSelectedTracks([]);
+                            }}
+                        >
+                            <MdDelete />
+                        </button>
+                        <button
+                            className="px-3 py-3 bg-orange-400 rounded-full"
+                            title="Transfer"
+                            onClick={() => setOpen(true)}
+                        >
+                            <BiTransfer />
+                        </button>
+                    </div>
+                )}
                 {playlistHtml}
             </div>
+            <Modal open={open} onClose={() => setOpen(false)}>
+                <h2 className="font-bold text-xl text-nice-blue font-outline-05">
+                    Select receiving playlist
+                </h2>
+                {open && (
+                    <PlaylistSelection
+                        liftId={selectReceiver}
+                        closeModal={terminateModal}
+                    />
+                )}
+            </Modal>
         </>
     );
 }

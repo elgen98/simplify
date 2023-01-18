@@ -22,9 +22,15 @@ function App() {
     }, []);
 
     return (
-        <main className="flex flex-col items-center gap-4 w-screen h-screen">
-            {token ? <Simplify /> : <Login />}
-        </main>
+        <>
+            {token ? (
+                <main className="flex flex-col items-center w-screen min-h-screen bg-nice-gray">
+                    <Simplify />
+                </main>
+            ) : (
+                <Login />
+            )}
+        </>
     );
 }
 

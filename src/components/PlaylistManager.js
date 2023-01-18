@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
+import LoadingIcons from "react-loading-icons";
 import EditMode from "./EditMode";
 import SortAndSearch from "./SortAndSearch";
+import { TfiArrowCircleLeft } from "react-icons/tfi";
 
 const spotify = new SpotifyWebApi();
 
@@ -77,73 +79,90 @@ function PlaylistManager(props) {
         setSearchResult(result);
     }
 
-    let playlistHtml;
+    let playlistHtml = playlistTracks.map((item) => (
+        <li
+            className="whitespace-nowrap text-ellipsis overflow-x-hidden drop-shadow-blueText"
+            key={item.track.id}
+        >
+            {item.track.name}
+            <div className="text-ellipsis overflow-x-hidden">
+                <small>
+                    {item.track.artists.map((artist, index) => {
+                        return (index ? ", " : "") + artist.name;
+                    })}
+                </small>{" "}
+                - <small>{item.track.album.name}</small>
+            </div>
+        </li>
+    ));
+
     if (searchResult.length > 0) {
         playlistHtml = searchResult.map((item) => (
             <li
-                className={
-                    showEditMode
-                        ? "whitespace-nowrap h-[26px]"
-                        : "whitespace-nowrap h-[26px] pl-6"
-                }
+                className="whitespace-nowrap text-ellipsis overflow-x-hidden drop-shadow-blueText"
                 key={item.track.id}
             >
                 {item.track.name}
-            </li>
-        ));
-    } else {
-        playlistHtml = playlistTracks.map((item) => (
-            <li
-                className={
-                    showEditMode
-                        ? "whitespace-nowrap h-[26px]"
-                        : "whitespace-nowrap h-[26px] pl-6"
-                }
-                key={item.track.id}
-            >
-                {item.track.name}
+                <div className="text-ellipsis overflow-x-hidden">
+                    <small>
+                        {item.track.artists.map((artist, index) => {
+                            return (index ? ", " : "") + artist.name;
+                        })}
+                    </small>{" "}
+                    - <small>{item.track.album.name}</small>
+                </div>
             </li>
         ));
     }
 
+    const renderText = () => {
+        if (playlistTracks.length > 0 && showEditMode === false) {
+            return (
+                <div className=" w-11/12">
+                    <ul className="flex flex-col gap-2">{playlistHtml}</ul>
+                </div>
+            );
+        } else if (showEditMode === true) {
+            return (
+                <EditMode
+                    playlist={
+                        searchResult.length > 0 ? searchResult : playlistTracks
+                    }
+                    removeTracks={deleteTracks}
+                    moveTracks={transferTracks}
+                />
+            );
+        }
+
+        return <LoadingIcons.Circles fill="#F2B705" />;
+    };
+
     return (
         <>
-            <h2 className="text-2xl font-semibold ">{playlistName}</h2>
+            <button
+                className="mr-auto flex items-center gap-2 pl-2"
+                onClick={() => {
+                    props.liftId("");
+                }}
+            >
+                <TfiArrowCircleLeft />
+                Back to playlists
+            </button>
+            <h2 className="text-2xl 3xl:text-3xl font-semibold text-nice-orange font-outline-05">
+                {playlistName}
+            </h2>
             <SortAndSearch
                 playlist={playlistTracks}
                 liftPlaylist={sortPlaylist}
                 liftSearchResult={showSearchResult}
             />
             <button
-                className="w-20 rounded-full bg-yellow-300"
+                className="mr-auto w-20 rounded-full bg-nice-yellow ml-4 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-200 hover:shadow-lg"
                 onClick={toggleEditMode}
             >
                 Simplify
             </button>
-            <button
-                onClick={() => {
-                    props.liftId("");
-                }}
-            >
-                Back to playlists
-            </button>
-            <div className="flex flex-row w-full ml-12">
-                {showEditMode && (
-                    <EditMode
-                        playlist={
-                            searchResult.length > 0
-                                ? searchResult
-                                : playlistTracks
-                        }
-                        removeTracks={deleteTracks}
-                        moveTracks={transferTracks}
-                    />
-                )}
-
-                <ul className="flex flex-col gap-2 w-3/4 overflow-x-hidden">
-                    {playlistHtml}
-                </ul>
-            </div>
+            {renderText()}
         </>
     );
 }
