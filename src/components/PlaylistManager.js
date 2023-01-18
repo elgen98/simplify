@@ -148,7 +148,7 @@ function PlaylistManager(props) {
                 <TfiArrowCircleLeft />
                 Back to playlists
             </button>
-            <h2 className="text-2xl font-semibold text-nice-orange font-outline-05">
+            <h2 className="text-2xl 3xl:text-3xl font-semibold text-nice-orange font-outline-05">
                 {playlistName}
             </h2>
             <SortAndSearch
