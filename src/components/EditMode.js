@@ -60,7 +60,7 @@ function EditMode(props) {
     return (
         <>
             {selectedTracks.length > 0 && (
-                <div className="fixed top-0 right-0 flex flex-col gap-2 m-3">
+                <div className="fixed top-83% right-0 md:right-20% md:top-1/3 lg:top-1/4 lg:right-1/4 flex flex-col gap-3 m-3">
                     <button
                         className="px-3 py-3 w-full bg-red-600 rounded-full"
                         title="Delete"

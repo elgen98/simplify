@@ -20,6 +20,10 @@ module.exports = {
                 "nice-gray": "#A0B9D9",
                 "nice-yellow": "#F2B705",
             },
+            inset: {
+                "83%": "83%",
+                "20%": "20%",
+            },
         },
     },
 
