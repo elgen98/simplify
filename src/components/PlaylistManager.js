@@ -3,6 +3,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 import LoadingIcons from "react-loading-icons";
 import EditMode from "./EditMode";
 import SortAndSearch from "./SortAndSearch";
+import { TfiArrowCircleLeft } from "react-icons/tfi";
 
 const spotify = new SpotifyWebApi();
 
@@ -138,6 +139,15 @@ function PlaylistManager(props) {
 
     return (
         <>
+            <button
+                className="mr-auto flex items-center gap-2 pl-2"
+                onClick={() => {
+                    props.liftId("");
+                }}
+            >
+                <TfiArrowCircleLeft />
+                Back to playlists
+            </button>
             <h2 className="text-2xl font-semibold ">{playlistName}</h2>
             <SortAndSearch
                 playlist={playlistTracks}
@@ -149,13 +159,6 @@ function PlaylistManager(props) {
                 onClick={toggleEditMode}
             >
                 Simplify
-            </button>
-            <button
-                onClick={() => {
-                    props.liftId("");
-                }}
-            >
-                Back to playlists
             </button>
             {renderText()}
         </>
