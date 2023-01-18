@@ -1,5 +1,6 @@
 import React from "react";
 import { loginUrl } from "../spotify";
+//Login component
 function Login() {
     return (
         <main className=" flex flex-col justify-center items-center gap-40 min-h-screen bg-nice-gray">

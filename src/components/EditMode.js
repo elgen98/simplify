@@ -26,11 +26,12 @@ function EditMode(props) {
         props.moveTracks(playlistId, selectedTracks);
         setSelectedTracks([]);
     }
-
+    //Kill Modal
     function terminateModal() {
         setOpen(false);
     }
 
+    // HTML //
     let playlistHtml = playlist.map((item) => (
         <label
             key={item.track.id}

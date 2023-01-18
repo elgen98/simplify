@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import SpotifyWebApi from "spotify-web-api-js";
 import PlaylistManager from "./PlaylistManager";
 import PlaylistSelection from "./PlaylistSelection";
 import { BsGithub, BsLinkedin } from "react-icons/bs";
 
-const spotify = new SpotifyWebApi();
 function Simplify() {
     const [playlistId, setPlaylistId] = useState("");
 
@@ -13,6 +11,7 @@ function Simplify() {
     }
     return (
         <>
+            {/* Header */}
             <header className=" w-full flex justify-between items-center p-2 md:w-3/4 xl:w-2/4 2xl:w-2/5">
                 <h1 className="text-xl font-bold text-nice-yellow font-outline-05">
                     Simplify
@@ -28,7 +27,9 @@ function Simplify() {
                     </button>
                 </nav>
             </header>
-            <div className=" w-full flex flex-col items-center justify-center gap-4 md:w-3/4 xl:w-2/4 2xl:w-2/5">
+            {/* Main */}
+            {/* If playlistId is selected, move to manager. Otherwise shows playlistSelection */}
+            <main className=" w-full flex flex-col items-center justify-center gap-4 md:w-3/4 xl:w-2/4 2xl:w-2/5">
                 {playlistId ? (
                     <PlaylistManager id={playlistId} liftId={selectPlaylist} />
                 ) : (
@@ -39,7 +40,8 @@ function Simplify() {
                         <PlaylistSelection liftId={selectPlaylist} />
                     </>
                 )}
-            </div>
+            </main>
+            {/* Footer */}
             <footer className="w-full bg-gray-600 flex justify-center mt-auto">
                 <div className="flex items-center justify-center gap-28 p-2 md:w-3/4 xl:w-2/4 2xl:w-2/5">
                     <a

@@ -24,6 +24,9 @@ function PlaylistManager(props) {
             })
             .then(function (totalTracks) {
                 fetchLoop(totalTracks);
+            })
+            .catch((err) => {
+                console.error(err);
             });
 
         function fetchLoop(totalTracks) {
@@ -43,12 +46,15 @@ function PlaylistManager(props) {
                             return new Date(a.added_at) - new Date(b.added_at);
                         });
                         setPlaylistTracks(...playlistTracks, testArray);
+                    })
+                    .catch((err) => {
+                        console.error(err);
                     });
                 offset += requestSize;
             }
         }
     }, []);
-
+    //Toggles edit mode
     function toggleEditMode() {
         setShowEditMode(!showEditMode);
     }
@@ -69,16 +75,17 @@ function PlaylistManager(props) {
         deleteTracks(selectedTracks);
         toggleEditMode();
     }
-
+    //Rearranges playlist according to sorting method
     function sortPlaylist(orderedPlaylist) {
         setPlaylistTracks([...orderedPlaylist]);
         setSearchResult([...orderedPlaylist]);
     }
-
+    //Shows search results
     function showSearchResult(result) {
         setSearchResult(result);
     }
 
+    // HTML //
     let playlistHtml = playlistTracks.map((item) => (
         <li
             className="whitespace-nowrap text-ellipsis overflow-x-hidden drop-shadow-blueText"

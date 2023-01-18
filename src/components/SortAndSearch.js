@@ -4,8 +4,9 @@ import { BiSort } from "react-icons/bi";
 
 function SortAndSearch(props) {
     let playlist = props.playlist;
-    const [q, setQ] = useState("");
+    const [query, setQuery] = useState("");
 
+    //Sorting then lifting results
     function sorting(sortBy) {
         if (sortBy === "oldest") {
             playlist.sort(function (a, b) {
@@ -33,32 +34,32 @@ function SortAndSearch(props) {
         props.liftPlaylist(playlist);
     }
 
+    //Search for artists, albums and tracks then lifts results
     function searchItems(searchQuery) {
-        setQ(searchQuery);
+        setQuery(searchQuery);
         const filteredData = playlist.filter((item) => {
             let result;
             result = Object.values(item.track.album)
                 .join("")
                 .toLowerCase()
-                .includes(q.toLowerCase());
+                .includes(query.toLowerCase());
 
             result += Object.values(item.track)
                 .join("")
                 .toLowerCase()
-                .includes(q.toLowerCase());
+                .includes(query.toLowerCase());
 
             for (let i = 0; i < item.track.artists.length; i++) {
                 result += Object.values(item.track.artists[i])
                     .join("")
                     .toLowerCase()
-                    .includes(q.toLowerCase());
+                    .includes(query.toLowerCase());
             }
             return result;
         });
-        console.log(filteredData);
         props.liftSearchResult(filteredData);
     }
-
+    // HTML //
     return (
         <div className="flex flex-col items-center gap-2 md:w-full md:flex-row md:justify-center md:gap-6">
             <div className="flex flex-row-reverse items-center gap-2">
@@ -74,7 +75,7 @@ function SortAndSearch(props) {
                     id="search-form"
                     name="search-form"
                     placeholder="Search Song, Artist, or Album"
-                    value={q}
+                    value={query}
                     onChange={(e) => searchItems(e.target.value)}
                 />
             </div>

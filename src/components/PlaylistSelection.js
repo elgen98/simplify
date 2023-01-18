@@ -11,7 +11,7 @@ function PlaylistSelection(props) {
     const [show, setShow] = useState(false);
     const [playlistName, setPlaylistName] = useState("");
 
-    //Get the list of playlists owned by this user // Could be improved by using context and
+    //Get the list of playlists owned by this user
     useEffect(() => {
         Promise.all([spotify.getMe(), spotify.getUserPlaylists({ limit: 50 })])
             .then((values) => {
@@ -24,23 +24,27 @@ function PlaylistSelection(props) {
             })
             .catch((err) => console.error(err));
         //loops 1 extra time because state. But need it for create new playlist //Fix?
-        console.log("hey");
     }, [userId]);
 
+    //Create a new playlist
     function createNewPlaylist() {
-        spotify.createPlaylist(userId, { name: playlistName }).then((data) => {
-            setPlaylists([...playlists, data]);
-            setPlaylistName("");
-            props.liftId(data.id);
-        });
+        spotify
+            .createPlaylist(userId, { name: playlistName })
+            .then((data) => {
+                setPlaylists([...playlists, data]);
+                setPlaylistName("");
+                props.liftId(data.id);
+            })
+            .catch((err) => console.error(err));
 
         setShow(false);
     }
 
+    //Handle user input for name of new playlist
     function handleNameInput(value) {
         setPlaylistName(value);
     }
-
+    // HTML //
     let playlistGroupHtml = playlists.map((playlist) => (
         <li
             className="cursor-pointer"

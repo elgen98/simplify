@@ -20,13 +20,13 @@ function App() {
             spotify.setAccessToken(_token);
         }
     }, []);
-
+    //If token exists then gain access to application, otherwise redirect to login page
     return (
         <>
             {token ? (
-                <main className="flex flex-col items-center w-screen min-h-screen bg-nice-gray">
+                <div className="flex flex-col items-center w-screen min-h-screen bg-nice-gray">
                     <Simplify />
-                </main>
+                </div>
             ) : (
                 <Login />
             )}

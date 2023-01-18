@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { GrClose } from "react-icons/gr";
 
 function Modal({ open, onClose, children }) {
+    //Escape key handling
     function escHandler({ key }) {
         if (key === "Escape") {
             onClose();
@@ -18,7 +19,7 @@ function Modal({ open, onClose, children }) {
             }
         };
     }, []);
-
+    // HTML //
     return (
         <div
             data-testid="modal-1"
